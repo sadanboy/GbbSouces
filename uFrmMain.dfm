@@ -22,7 +22,7 @@ object FrmMain: TFrmMain
     Left = 3
     Top = 57
     Width = 182
-    Height = 514
+    Height = 509
     ParentCustomHint = False
     Align = alLeft
     Ctl3D = False
@@ -40,7 +40,6 @@ object FrmMain: TFrmMain
     OptionsImage.SmallImages = Img24
     OptionsView.ExplorerBar.ShowSpecialGroup = True
     OptionsView.NavigationPane.ShowOverflowPanel = False
-    ExplicitHeight = 512
     object NavBarMenuGroup1: TdxNavBarGroup
       Caption = #25968#25454#31649#29702
       LargeImageIndex = 2
@@ -154,7 +153,7 @@ object FrmMain: TFrmMain
     Left = 193
     Top = 59
     Width = 1093
-    Height = 510
+    Height = 505
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -179,10 +178,10 @@ object FrmMain: TFrmMain
     Properties.TabHeight = 26
     LookAndFeel.Kind = lfUltraFlat
     LookAndFeel.ScrollbarMode = sbmTouch
-    ExplicitHeight = 508
-    ClientRectBottom = 510
-    ClientRectRight = 1093
-    ClientRectTop = 0
+    ClientRectBottom = 498
+    ClientRectLeft = 3
+    ClientRectRight = 1086
+    ClientRectTop = 3
   end
   object barMgrMain: TdxBarManager
     AllowReset = False
@@ -215,7 +214,7 @@ object FrmMain: TFrmMain
       0
       0
       54
-      26)
+      31)
     object barMgrMainBar2: TdxBar
       AllowClose = False
       AllowCustomizing = False
