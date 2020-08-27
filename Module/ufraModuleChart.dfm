@@ -14,9 +14,10 @@ inherited fraModuleChart: TfraModuleChart
     LookAndFeel.Kind = lfUltraFlat
     LookAndFeel.NativeStyle = False
     LookAndFeel.ScrollbarMode = sbmDefault
-    ClientRectBottom = 661
-    ClientRectRight = 1652
-    ClientRectTop = 34
+    ClientRectBottom = 654
+    ClientRectLeft = 3
+    ClientRectRight = 1645
+    ClientRectTop = 41
     object cxTabSheet1: TcxTabSheet
       Caption = #24635#37096#24180#38144#21806#25968#25454#20998#26512
       ImageIndex = 0
@@ -25,7 +26,7 @@ inherited fraModuleChart: TfraModuleChart
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1652
+        Width = 1642
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -152,8 +153,8 @@ inherited fraModuleChart: TfraModuleChart
       object DBChart1: TDBChart
         Left = 0
         Top = 41
-        Width = 1652
-        Height = 586
+        Width = 1642
+        Height = 572
         Title.Font.Color = 4079166
         Title.Font.Height = -36
         Title.Font.Name = #24494#36719#38597#40657
@@ -206,7 +207,7 @@ inherited fraModuleChart: TfraModuleChart
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 1652
+        Width = 1642
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -322,8 +323,8 @@ inherited fraModuleChart: TfraModuleChart
       object DBChart2: TDBChart
         Left = 0
         Top = 41
-        Width = 1652
-        Height = 586
+        Width = 1642
+        Height = 572
         Title.Color = clGray
         Title.Font.Color = 4802889
         Title.Font.Height = -35
@@ -337,6 +338,9 @@ inherited fraModuleChart: TfraModuleChart
         View3DOptions.Orthogonal = False
         View3DOptions.Perspective = 0
         View3DOptions.Rotation = 360
+        Zoom.Allow = False
+        Zoom.MouseWheel = pmwNormal
+        ZoomWheel = pmwNormal
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
