@@ -1,0 +1,205 @@
+inherited ReturnEditFrom: TReturnEditFrom
+  Caption = 'ReturnEditFrom'
+  ClientHeight = 511
+  OnCreate = FormCreate
+  ExplicitHeight = 549
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited GroupBoxCustomer: TGroupBox
+    Height = 460
+    Align = alClient
+    ExplicitHeight = 460
+    inherited Label3: TLabel
+      Caption = #26376#40836#65306
+    end
+    inherited Label7: TLabel
+      Top = 67
+      Width = 80
+      Font.Color = clNavy
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitTop = 67
+      ExplicitWidth = 80
+    end
+    inherited Label9: TLabel
+      Top = 105
+      Width = 48
+      Height = 21
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = #24494#36719#38597#40657
+      ParentFont = False
+      ExplicitTop = 105
+      ExplicitWidth = 48
+      ExplicitHeight = 21
+    end
+    object label10: TLabel [8]
+      Left = 14
+      Top = 285
+      Width = 64
+      Height = 21
+      Caption = #22238#35775#20869#23481
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = #24494#36719#38597#40657
+      Font.Style = []
+      Font.Quality = fqClearType
+      ParentFont = False
+    end
+    object Label5: TLabel [9]
+      Left = 232
+      Top = 144
+      Width = 112
+      Height = 21
+      Caption = #39044#35745#22238#35775#26085#26399#65306
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = #24494#36719#38597#40657
+      Font.Style = []
+      Font.Quality = fqClearType
+      ParentFont = False
+    end
+    inherited edtComWeChat: TcxImageComboBox
+      Top = 102
+      Properties.Images = Dm.imgList16X16
+      Properties.Items = <
+        item
+          Description = #26410#21152#24494#20449
+          ImageIndex = 0
+          Value = 0
+        end
+        item
+          Description = #24050#21152#24494#20449
+          ImageIndex = 1
+          Value = 1
+        end>
+      ExplicitTop = 102
+      ExplicitHeight = 26
+    end
+    inherited edtAge: TcxTextEdit
+      Top = 102
+      Properties.ReadOnly = True
+      ExplicitTop = 102
+      ExplicitHeight = 26
+    end
+    inherited edtphone: TcxTextEdit
+      Top = 140
+      ExplicitTop = 140
+      ExplicitHeight = 26
+    end
+    inherited edtFoodCycle: TcxTextEdit
+      Top = 65
+      Text = ''
+      OnKeyPress = edtFoodCycleKeyPress
+      ExplicitTop = 65
+      ExplicitHeight = 26
+    end
+    inherited edtFuzeren: TcxTextEdit
+      Top = 27
+      ExplicitTop = 27
+      ExplicitHeight = 26
+    end
+    inherited RemarkMemo: TcxMemo
+      Top = 177
+      ExplicitTop = 177
+    end
+    inherited edtName: TcxTextEdit
+      Properties.ReadOnly = True
+      ExplicitHeight = 26
+    end
+    inherited edtCardNum: TcxTextEdit
+      Properties.ReadOnly = True
+      ExplicitHeight = 26
+    end
+    object RecordMemo: TcxMemo
+      Left = 80
+      Top = 285
+      TabOrder = 8
+      Height = 166
+      Width = 403
+    end
+    object ScedtDate: TscDateEdit
+      Left = 337
+      Top = 140
+      Width = 146
+      Height = 26
+      FluentUIOpaque = False
+      UseFontColorToStyleColor = False
+      ContentMarginLeft = 0
+      ContentMarginRight = 0
+      ContentMarginTop = 0
+      ContentMarginBottom = 0
+      CustomBackgroundImageNormalIndex = -1
+      CustomBackgroundImageHotIndex = -1
+      CustomBackgroundImageDisabledIndex = -1
+      PromptTextColor = clNone
+      HidePromptTextIfFocused = False
+      WallpaperIndex = -1
+      BlanksChar = ' '
+      TodayDefault = False
+      CalendarWidth = 200
+      CalendarHeight = 150
+      CalendarFont.Charset = DEFAULT_CHARSET
+      CalendarFont.Color = clWindowText
+      CalendarFont.Height = -11
+      CalendarFont.Name = 'Tahoma'
+      CalendarFont.Style = []
+      CalendarBoldDays = False
+      CalendarBackgroundStyle = sccasPanel
+      CalendarWallpaperIndex = -1
+      FirstDayOfWeek = Sun
+      WeekNumbers = False
+      ShowToday = False
+      LeftButton.ComboButton = False
+      LeftButton.Enabled = True
+      LeftButton.Visible = False
+      LeftButton.ShowHint = False
+      LeftButton.ShowEllipses = False
+      LeftButton.StyleKind = scbsPushButton
+      LeftButton.Width = 18
+      LeftButton.ImageIndex = -1
+      LeftButton.ImageHotIndex = -1
+      LeftButton.ImagePressedIndex = -1
+      LeftButton.RepeatClick = False
+      LeftButton.RepeatClickInterval = 200
+      LeftButton.CustomImageNormalIndex = -1
+      LeftButton.CustomImageHotIndex = -1
+      LeftButton.CustomImagePressedIndex = -1
+      LeftButton.CustomImageDisabledIndex = -1
+      RightButton.ComboButton = False
+      RightButton.Enabled = True
+      RightButton.Visible = True
+      RightButton.ShowHint = False
+      RightButton.ShowEllipses = True
+      RightButton.StyleKind = scbsPushButton
+      RightButton.Width = 18
+      RightButton.ImageIndex = -1
+      RightButton.ImageHotIndex = -1
+      RightButton.ImagePressedIndex = -1
+      RightButton.RepeatClick = False
+      RightButton.RepeatClickInterval = 200
+      RightButton.CustomImageNormalIndex = -1
+      RightButton.CustomImageHotIndex = -1
+      RightButton.CustomImagePressedIndex = -1
+      RightButton.CustomImageDisabledIndex = -1
+      Transparent = False
+      BorderKind = scebFrame
+      FrameColor = clBtnShadow
+      FrameActiveColor = clHighlight
+      MaxLength = 10
+      TabOrder = 9
+    end
+  end
+  inherited Panel1: TPanel
+    Top = 466
+    ExplicitTop = 466
+    inherited btnOK: TButton
+      Caption = #25552#20132
+      ModalResult = 0
+      OnClick = btnOKClick
+    end
+  end
+end
