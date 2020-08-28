@@ -1,2 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2020-08-29 00:42:36.748,=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>2020-08-29 00:47:21.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.pas=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>2020-08-29 00:47:21.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.dfm=F:\项目\GBB200826\GbbSouces\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

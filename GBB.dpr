@@ -31,7 +31,8 @@ uses
   uFraModuleUserInfo in 'Module\uFraModuleUserInfo.pas' {FraModuleUserInfo: TFrame},
   ufrmEditBase in 'Base\ufrmEditBase.pas' {frmEditBase},
   ufrmEditUserInfo in 'Form\ufrmEditUserInfo.pas' {frmEditUserInfo},
-  uHuiFangFrm in 'Form\uHuiFangFrm.pas' {ReturnViewFrom};
+  uHuiFangFrm in 'Form\uHuiFangFrm.pas' {ReturnViewFrom},
+  uFraModuleGoodClass in 'Module\uFraModuleGoodClass.pas' {FraModuleGoodClass: TFrame};
 
 {$R *.res}
 var
@@ -43,10 +44,10 @@ begin
     Application.Initialize;
     Application.MainFormOnTaskbar := False;
     Application.CreateForm(TDm, Dm);
-    Application.CreateForm(TDmClient, DmClient);
-    Application.CreateForm(TFrmMain, FrmMain);
-    Application.CreateForm(TReturnViewFrom, ReturnViewFrom);
-    Application.Run;
+  Application.CreateForm(TDmClient, DmClient);
+  Application.CreateForm(TFrmMain, FrmMain);
+  Application.CreateForm(TReturnViewFrom, ReturnViewFrom);
+  Application.Run;
   end else
   begin
     hPrevInst := FindWindow(PChar('TFrmMain'), nil); //»ñÈ¡³ÌÐò¾ä±ú

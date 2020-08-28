@@ -160,6 +160,8 @@ type
     btnReLogin: TdxBarButton;
     dxBarButton54: TdxBarButton;
     dxBarLargeButton3: TdxBarLargeButton;
+    MenuGoddclass: TdxNavBarItem;
+    Action1: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MainTimerTimer(Sender: TObject);

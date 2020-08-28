@@ -1009,7 +1009,7 @@ procedure TfraModuleChart.Series1GetMarkText(Sender: TChartSeries;
   ValueIndex: Integer; var MarkText: string);
 begin
   inherited;
-  MarkText:=MarkText+'Ԫ';
+ // MarkText:=MarkText+'Ԫ';
 end;
 
 procedure TfraModuleChart.SetDetailPrivilege;

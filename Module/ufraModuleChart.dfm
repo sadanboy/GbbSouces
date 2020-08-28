@@ -8,16 +8,15 @@ inherited fraModuleChart: TfraModuleChart
     Height = 661
     Align = alClient
     TabOrder = 0
-    Properties.ActivePage = cxTabSheet2
+    Properties.ActivePage = cxTabSheet1
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 32
     LookAndFeel.Kind = lfUltraFlat
     LookAndFeel.NativeStyle = False
     LookAndFeel.ScrollbarMode = sbmDefault
-    ClientRectBottom = 654
-    ClientRectLeft = 3
-    ClientRectRight = 1645
-    ClientRectTop = 41
+    ClientRectBottom = 661
+    ClientRectRight = 1652
+    ClientRectTop = 34
     object cxTabSheet1: TcxTabSheet
       Caption = #24635#37096#24180#38144#21806#25968#25454#20998#26512
       ImageIndex = 0
@@ -26,7 +25,7 @@ inherited fraModuleChart: TfraModuleChart
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1642
+        Width = 1652
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -153,8 +152,9 @@ inherited fraModuleChart: TfraModuleChart
       object DBChart1: TDBChart
         Left = 0
         Top = 41
-        Width = 1642
-        Height = 572
+        Width = 1652
+        Height = 586
+        AllowPanning = pmNone
         Title.Font.Color = 4079166
         Title.Font.Height = -36
         Title.Font.Name = #24494#36719#38597#40657
@@ -164,7 +164,6 @@ inherited fraModuleChart: TfraModuleChart
           #20054#23453#36125#24180#24230#24635#38144#21806#32479#35745)
         BottomAxis.Axis.Color = clGray
         BottomAxis.Grid.Visible = False
-        LeftAxis.Visible = False
         Legend.FontSeriesColor = True
         Legend.TextStyle = ltsXValue
         Legend.Visible = False
@@ -173,9 +172,9 @@ inherited fraModuleChart: TfraModuleChart
         View3D = False
         View3DWalls = False
         Zoom.Allow = False
-        Zoom.Direction = tzdVertical
+        Zoom.Direction = tzdHorizontal
         Zoom.KeyShift = [ssCtrl]
-        Zoom.MouseButton = mbRight
+        Zoom.Pen.Visible = False
         OnGetAxisLabel = DBChart1GetAxisLabel
         Align = alClient
         BevelOuter = bvNone
@@ -207,7 +206,7 @@ inherited fraModuleChart: TfraModuleChart
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 1642
+        Width = 1652
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -323,8 +322,8 @@ inherited fraModuleChart: TfraModuleChart
       object DBChart2: TDBChart
         Left = 0
         Top = 41
-        Width = 1642
-        Height = 572
+        Width = 1652
+        Height = 586
         Title.Color = clGray
         Title.Font.Color = 4802889
         Title.Font.Height = -35
