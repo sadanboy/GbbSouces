@@ -155,6 +155,7 @@ object FrmMain: TFrmMain
       Hint = #20998#31867#20449#24687
       LargeImageIndex = 7
       SmallImageIndex = 7
+      OnClick = MenuGoddclassClick
     end
   end
   object pcMain: TcxPageControl

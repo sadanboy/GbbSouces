@@ -178,6 +178,7 @@ type
     procedure actWHXExecute(Sender: TObject);
     procedure NavBarMenuItem6Click(Sender: TObject);
     procedure btnReLoginClick(Sender: TObject);
+    procedure MenuGoddclassClick(Sender: TObject);
   private
     FbHostFree: Boolean;  //点窗体关闭,隐藏窗体到右下角
     function CallModule(moduleSymbol, moduleCaption: string; AllowMultiInstance: Boolean = False): TFrame;
@@ -612,6 +613,11 @@ begin
   days[7]:='星期六';
 
   btnTimer.Caption:='当前时间：'+FormatDateTime('YYYY年MM月DD日 hh:mm:ss',Now)+#32+days[DayOfWeek(now)];
+end;
+
+procedure TFrmMain.MenuGoddclassClick(Sender: TObject);
+begin
+  CallModule('GoodClass','商品分类信息');
 end;
 
 procedure TFrmMain.NavBarMenuItem6Click(Sender: TObject);

@@ -27,7 +27,7 @@ uses
   FireDAC.Comp.Client, FireDataSet, System.ImageList, Vcl.ImgList, cxImageList,
   cxClasses, dxBar, System.Actions, Vcl.ActnList, cxPropertiesStore,
   Vcl.ExtCtrls, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid;
+  cxGridTableView, cxGridDBTableView, cxGrid, scControls, scGPControls;
 
 type
   TFraModuleGoodClass = class(TFraModuleBaseList)
@@ -46,6 +46,12 @@ type
     FireQGoodClass羊奶品牌: TWideStringField;
     FireQGoodClass纸尿裤: TWideStringField;
     FireQGoodClass品牌: TWideStringField;
+    btnAdd: TscGPButton;
+    btnEdit: TscGPButton;
+    btnDeltete: TscGPButton;
+    btnFind: TscGPButton;
+    btnExprot: TscGPButton;
+    scGPButton6: TscGPButton;
   private
     { Private declarations }
   public
@@ -94,7 +100,11 @@ end;
 procedure TFraModuleGoodClass.GetData;
 begin
   inherited;
-
+  FireQGoodClass.DataInfo.Connection:=DmClient.FireConMain;
+  if not FireQGoodClass.OpenData then
+  begin
+    ShowMessage('商品分类数据集打开失败'+FireQGoodClass.DataInfo.ErrMsg);
+  end;
 end;
 
 procedure TFraModuleGoodClass.InitModuleLayout;
