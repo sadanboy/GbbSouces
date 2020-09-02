@@ -252,6 +252,13 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Snowflake.pas"/>
+        <DCCReference Include="Form\uFrmGoodTypeManager.pas">
+            <Form>TFrmGoodTypeManager</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Utils\FireFunction.pas"/>
+        <DCCReference Include="Utils\MyLib.scTreeView.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

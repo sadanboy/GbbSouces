@@ -32,7 +32,11 @@ uses
   ufrmEditBase in 'Base\ufrmEditBase.pas' {frmEditBase},
   ufrmEditUserInfo in 'Form\ufrmEditUserInfo.pas' {frmEditUserInfo},
   uHuiFangFrm in 'Form\uHuiFangFrm.pas' {ReturnViewFrom},
-  uFraModuleGoodClass in 'Module\uFraModuleGoodClass.pas' {FraModuleGoodClass: TFrame};
+  uFraModuleGoodClass in 'Module\uFraModuleGoodClass.pas' {FraModuleGoodClass: TFrame},
+  Snowflake in 'Snowflake.pas',
+  uFrmGoodTypeManager in 'Form\uFrmGoodTypeManager.pas' {TFrmGoodTypeManager},
+  FireFunction in 'Utils\FireFunction.pas',
+  MyLib.scTreeView in 'Utils\MyLib.scTreeView.pas';
 
 {$R *.res}
 var
@@ -47,6 +51,7 @@ begin
   Application.CreateForm(TDmClient, DmClient);
   Application.CreateForm(TFrmMain, FrmMain);
   Application.CreateForm(TReturnViewFrom, ReturnViewFrom);
+  Application.CreateForm(TTFrmGoodTypeManager, TFrmGoodTypeManager);
   Application.Run;
   end else
   begin
