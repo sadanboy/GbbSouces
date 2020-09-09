@@ -25,7 +25,7 @@ uses
   dxBar, dxBarExtItems, cxClasses,uFraModuleBase, Vcl.ExtCtrls, cxTrackBar,
   cxBarEditItem, dxSkinsForm, Vcl.Menus, dxSkiniMaginary,
   dxSkinOffice2019Colorful, scControls, scGPControls, dxGalleryControl,uDmClient,
-  Vcl.WinXCtrls, Vcl.StdCtrls, dxRibbon;
+  Vcl.WinXCtrls, Vcl.StdCtrls, dxRibbon, dxSkinsDefaultPainters;
 const
   WM_RESTOREWINDOW = WM_USER+1209;  //自定义显示消息
 type
@@ -617,7 +617,7 @@ end;
 
 procedure TFrmMain.MenuGoddclassClick(Sender: TObject);
 begin
-  CallModule('GoodClass','商品分类信息');
+  CallModule('GoodTypeManager','商品分类信息');
 end;
 
 procedure TFrmMain.NavBarMenuItem6Click(Sender: TObject);

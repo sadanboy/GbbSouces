@@ -1,0 +1,5 @@
+inherited fraModuleGoodTypeManager: TfraModuleGoodTypeManager
+  inherited barMgrModule: TdxBarManager
+    PixelsPerInch = 96
+  end
+end

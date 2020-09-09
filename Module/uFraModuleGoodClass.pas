@@ -27,7 +27,8 @@ uses
   FireDAC.Comp.Client, FireDataSet, System.ImageList, Vcl.ImgList, cxImageList,
   cxClasses, dxBar, System.Actions, Vcl.ActnList, cxPropertiesStore,
   Vcl.ExtCtrls, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, scControls, scGPControls;
+  cxGridTableView, cxGridDBTableView, cxGrid, scControls, scGPControls,
+  dxSkinsDefaultPainters;
 
 type
   TFraModuleGoodClass = class(TFraModuleBaseList)

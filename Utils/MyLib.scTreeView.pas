@@ -74,7 +74,6 @@ var
     finally
       ACd.Free;
     end;
-
   end;
 
 begin

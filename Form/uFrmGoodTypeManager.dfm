@@ -1,9 +1,10 @@
-object TFrmGoodTypeManager: TTFrmGoodTypeManager
+object FrmGoodTypeManager: TFrmGoodTypeManager
   Left = 0
   Top = 0
+  BorderStyle = bsNone
   Caption = ' '#21830#21697#20998#31867#31649#29702
-  ClientHeight = 624
-  ClientWidth = 1164
+  ClientHeight = 662
+  ClientWidth = 1180
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +21,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
     Left = 3
     Top = 3
     Width = 342
-    Height = 618
+    Height = 656
     Align = alLeft
     Font.Charset = ANSI_CHARSET
     Font.Color = clBtnText
@@ -49,12 +50,13 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
     FrameWidth = 2
     ScaleFrameWdith = False
     StorePaintBuffer = True
+    ExplicitHeight = 618
     object TreeGoodType: TscTreeView
       AlignWithMargins = True
       Left = 8
       Top = 27
       Width = 326
-      Height = 579
+      Height = 617
       Margins.Left = 6
       Margins.Top = 6
       Margins.Right = 6
@@ -94,15 +96,15 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
       ButtonStyle = scebsModernArrow
       OnClick = TreeGoodTypeClick
       OnContextPopup = TreeGoodTypeContextPopup
-      ExplicitWidth = 270
+      ExplicitHeight = 579
     end
   end
   object scGPGroupBox2: TscGPGroupBox
     AlignWithMargins = True
     Left = 351
     Top = 3
-    Width = 810
-    Height = 618
+    Width = 826
+    Height = 656
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clBtnText
@@ -130,13 +132,13 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
     FrameWidth = 2
     ScaleFrameWdith = False
     StorePaintBuffer = True
-    ExplicitLeft = 295
-    ExplicitWidth = 866
+    ExplicitWidth = 810
+    ExplicitHeight = 618
     object scGPPanel1: TscGPPanel
       AlignWithMargins = True
       Left = 5
       Top = 24
-      Width = 800
+      Width = 816
       Height = 36
       Align = alTop
       FluentUIOpaque = False
@@ -178,7 +180,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
       StorePaintBuffer = True
       Sizeable = False
       WallpaperIndex = -1
-      ExplicitWidth = 856
+      ExplicitWidth = 800
       object scGPButton2: TscGPButton
         Left = 21
         Top = 3
@@ -187,6 +189,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
         FluentUIOpaque = False
         TabOrder = 0
         TabStop = True
+        OnContextPopup = scGPButton2ContextPopup
         Animation = False
         Badge.Color = clRed
         Badge.ColorAlpha = 255
@@ -204,7 +207,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
         Spacing = 1
         Layout = blGlyphLeft
         Images = Img16
-        ImageIndex = 0
+        ImageIndex = -1
         ImageMargin = 0
         TransparentBackground = True
         Options.NormalColor = clBtnFace
@@ -291,6 +294,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
         GlowEffect.PressedAlphaValue = 255
         GlowEffect.States = [scsHot, scsPressed, scsFocused]
         ImageGlow = True
+        DropDownMenu = PopupMenu2
         ShowGalleryMenuFromTop = False
         ShowGalleryMenuFromRight = False
         ShowMenuArrow = True
@@ -785,7 +789,7 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
       AlignWithMargins = True
       Left = 5
       Top = 66
-      Width = 800
+      Width = 816
       Height = 73
       Align = alTop
       Font.Charset = ANSI_CHARSET
@@ -814,19 +818,20 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
       FrameWidth = 1
       ScaleFrameWdith = False
       StorePaintBuffer = True
-      ExplicitWidth = 856
+      ExplicitWidth = 800
     end
     object cxGrid1: TcxGrid
       AlignWithMargins = True
       Left = 5
       Top = 145
-      Width = 800
-      Height = 468
+      Width = 816
+      Height = 506
       Align = alClient
       BorderStyle = cxcbsNone
       TabOrder = 2
       LookAndFeel.NativeStyle = False
-      ExplicitWidth = 856
+      ExplicitWidth = 800
+      ExplicitHeight = 468
       object cxGrid1DBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = DS1
@@ -837,25 +842,48 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
         object cxGrid1DBTableView1Column1: TcxGridDBColumn
           Caption = #21830#21697#21517#31216
           DataBinding.FieldName = 'MC'
-        end
-        object cxGrid1DBTableView1Column2: TcxGridDBColumn
-          DataBinding.FieldName = 'TM'
+          HeaderAlignmentHorz = taCenter
         end
         object cxGrid1DBTableView1Column3: TcxGridDBColumn
-        end
-        object cxGrid1DBTableView1Column4: TcxGridDBColumn
-        end
-        object cxGrid1DBTableView1Column5: TcxGridDBColumn
-        end
-        object cxGrid1DBTableView1Column6: TcxGridDBColumn
-        end
-        object cxGrid1DBTableView1Column7: TcxGridDBColumn
-        end
-        object cxGrid1DBTableView1Column8: TcxGridDBColumn
+          Caption = #21830#21697#20998#31867
+          DataBinding.FieldName = 'FID'
+          PropertiesClassName = 'TdxLookupSparklineProperties'
+          Properties.Series = <>
+          HeaderAlignmentHorz = taCenter
         end
       end
       object cxGrid1Level1: TcxGridLevel
         GridView = cxGrid1DBTableView1
+      end
+    end
+    object Panel1: TPanel
+      Left = 40
+      Top = 288
+      Width = 529
+      Height = 81
+      TabOrder = 3
+      Visible = False
+      object Label1: TLabel
+        Left = 8
+        Top = 8
+        Width = 131
+        Height = 26
+        Caption = #25968#25454#23548#20837#20013#8230#8230
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = #24494#36719#38597#40657
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object ProgressBar1: TProgressBar
+        Left = 8
+        Top = 48
+        Width = 513
+        Height = 25
+        Smooth = True
+        Step = 1
+        TabOrder = 0
       end
     end
   end
@@ -1151,16 +1179,6 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
           0D0A093C2F673E0D0A3C2F7376673E0D0A}
       end>
   end
-  object FireConnection1: TFireConnection
-    IsHttps = False
-    ServerHost = '127.0.0.1'
-    ServerPort = 9090
-    ConnectSecretkey = 'FD2259061E0E46B09C7D8A4FDD602C69'
-    MainDatabaseCode = 'Test'
-    ProxyPort = 0
-    Left = 247
-    Top = 315
-  end
   object FireQGoodType: TFireQuery
     FieldDefs = <
       item
@@ -1192,11 +1210,11 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
     UpdateOptions.FetchGeneratorsPoint = gpNone
     UpdateOptions.CheckRequired = False
     StoreDefs = True
-    DataInfo.DatabaseCode = 'Test'
+    DataInfo.DatabaseCode = 'GBB'
     DataInfo.SQL.Strings = (
       'SELECT * FROM [dbo].[GOODTYPE]')
     DataInfo.Params = <>
-    DataInfo.Connection = FireConnection1
+    DataInfo.Connection = DmClient.FireConMain
     DataInfo.ActiveDesign = False
     DataInfo.PageSize = -1
     DataInfo.PageIndex = -1
@@ -1264,11 +1282,11 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
     UpdateOptions.FetchGeneratorsPoint = gpNone
     UpdateOptions.CheckRequired = False
     StoreDefs = True
-    DataInfo.DatabaseCode = 'Test'
+    DataInfo.DatabaseCode = 'GBB'
     DataInfo.SQL.Strings = (
       'select * from goods')
     DataInfo.Params = <>
-    DataInfo.Connection = FireConnection1
+    DataInfo.Connection = DmClient.FireConMain
     DataInfo.ActiveDesign = False
     DataInfo.PageSize = -1
     DataInfo.PageIndex = -1
@@ -1528,5 +1546,53 @@ object TFrmGoodTypeManager: TTFrmGoodTypeManager
       Caption = #21024#38500#20998#31867
       OnClick = N5Click
     end
+  end
+  object PopupMenu2: TPopupMenu
+    Left = 511
+    Top = 211
+    object p1: TMenuItem
+      Caption = #21333#26465#22686#21152
+      OnClick = p1Click
+    end
+    object N6: TMenuItem
+      Caption = #25209#37327#22686#21152
+      OnClick = N6Click
+    end
+  end
+  object OpenDialogExcel: TOpenDialog
+    DefaultExt = '*.xlsx'
+    Filter = 'execl'#25991#20214'|*.xlsx|execl'#25991#20214'|*.xls'
+    Left = 615
+    Top = 227
+  end
+  object XLSReadWriteII51: TXLSReadWriteII5
+    ComponentVersion = '6.00.47'
+    Version = xvExcel2007
+    DirectRead = False
+    DirectWrite = False
+    Left = 727
+    Top = 235
+  end
+  object FireQGoodsImport: TFireQuery
+    CachedUpdates = True
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    DataInfo.Params = <>
+    DataInfo.ActiveDesign = False
+    DataInfo.PageSize = -1
+    DataInfo.PageIndex = -1
+    DataInfo.PageTotal = 0
+    DataInfo.PageTotalCount = 0
+    DataInfo.StoredProcReturnDataSet = False
+    DataInfo.AffectMaxCount = -1
+    DataInfo.AffectMustOne = False
+    DataInfo.RowsAffected = 0
+    DataInfo.AsynMode = False
+    Left = 576
+    Top = 312
   end
 end

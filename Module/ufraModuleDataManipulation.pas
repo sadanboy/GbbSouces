@@ -33,7 +33,8 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireHelper, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDataSet,System.Win.ComObj,
-  XLSReadWriteII5,Winapi.ShellAPI,Xc12DataStyleSheet5,XLSSheetData5;
+  XLSReadWriteII5,Winapi.ShellAPI,Xc12DataStyleSheet5,XLSSheetData5,
+  dxSkinsDefaultPainters, scControls;
 
 type
   TfraModuleDataManipulation = class(TfraModuleBase)
@@ -43,13 +44,15 @@ type
     dxBarLargeButton5: TdxBarLargeButton;
     ImageList1: TImageList;
     cxImageList1: TcxImageList;
-    XLS: TdxSpreadSheet;
     OpenDialog1: TOpenDialog;
     Panel1: TPanel;
     ProgressBar1: TProgressBar;
     Label1: TLabel;
     FireQImport: TFireQuery;
     dxBarLargeButton2: TdxBarLargeButton;
+    scPageControl1: TscPageControl;
+    scTabSheet1: TscTabSheet;
+    XLS: TdxSpreadSheet;
     procedure dxBarLargeButton1Click(Sender: TObject);
     procedure dxBarLargeButton3Click(Sender: TObject);
     procedure dxBarLargeButton2Click(Sender: TObject);

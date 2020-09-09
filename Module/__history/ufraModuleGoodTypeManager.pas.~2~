@@ -1,0 +1,27 @@
+unit ufraModuleGoodTypeManager;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFraModuleBase, dxSkinsCore,
+  dxSkinsDefaultPainters, cxClasses, dxBar, System.Actions, Vcl.ActnList,
+  cxPropertiesStore, Vcl.ExtCtrls;
+
+type
+  TfraModuleGoodTypeManager = class(TfraModuleBase)
+    MainPanel: TPanel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fraModuleGoodTypeManager: TfraModuleGoodTypeManager;
+
+implementation
+
+{$R *.dfm}
+
+end.

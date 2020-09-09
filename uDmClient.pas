@@ -9,6 +9,7 @@ uses
   FireDAC.Comp.Client, FireDataSet, FireClientConnect;
 
 type
+  FormEditState = (fesEdit, fesAdd);
   TAppInfo =class
     private
       FUserName:string;

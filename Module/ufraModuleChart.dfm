@@ -203,6 +203,9 @@ inherited fraModuleChart: TfraModuleChart
     object cxTabSheet2: TcxTabSheet
       Caption = #24635#37096#26376#38144#21806#20998#26512
       ImageIndex = 1
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel2: TPanel
         Left = 0
         Top = 0

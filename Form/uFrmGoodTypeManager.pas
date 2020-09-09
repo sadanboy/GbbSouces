@@ -28,15 +28,15 @@ uses
   cxDataStorage, cxEdit, cxNavigator, dxDateRanges, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, dxSkinsDefaultPainters, Vcl.Menus,
-  System.Generics.Collections;
+  System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline, XLSSheetData5,
+  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
-  TTFrmGoodTypeManager = class(TForm)
+  TFrmGoodTypeManager = class(TForm)
     scGPGroupBox1: TscGPGroupBox;
     scGPGroupBox2: TscGPGroupBox;
     TreeGoodType: TscTreeView;
     Img20: TcxImageList;
-    FireConnection1: TFireConnection;
     FireQGoodType: TFireQuery;
     scGPPanel1: TscGPPanel;
     scGPGroupBox3: TscGPGroupBox;
@@ -44,13 +44,7 @@ type
     cxGrid1Level1: TcxGridLevel;
     cxGrid1: TcxGrid;
     cxGrid1DBTableView1Column1: TcxGridDBColumn;
-    cxGrid1DBTableView1Column2: TcxGridDBColumn;
     cxGrid1DBTableView1Column3: TcxGridDBColumn;
-    cxGrid1DBTableView1Column4: TcxGridDBColumn;
-    cxGrid1DBTableView1Column5: TcxGridDBColumn;
-    cxGrid1DBTableView1Column6: TcxGridDBColumn;
-    cxGrid1DBTableView1Column7: TcxGridDBColumn;
-    cxGrid1DBTableView1Column8: TcxGridDBColumn;
     DS1: TDataSource;
     FireqGoods: TFireQuery;
     FireqGoodsID: TStringField;
@@ -73,6 +67,15 @@ type
     N3: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
+    PopupMenu2: TPopupMenu;
+    p1: TMenuItem;
+    N6: TMenuItem;
+    OpenDialogExcel: TOpenDialog;
+    XLSReadWriteII51: TXLSReadWriteII5;
+    Panel1: TPanel;
+    ProgressBar1: TProgressBar;
+    Label1: TLabel;
+    FireQGoodsImport: TFireQuery;
     procedure FormCreate(Sender: TObject);
     procedure TreeGoodTypeClick(Sender: TObject);
     procedure TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
@@ -83,6 +86,10 @@ type
     procedure N2Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
+    procedure p1Click(Sender: TObject);
+    procedure N6Click(Sender: TObject);
+    procedure scGPButton2ContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
   private
     { Private declarations }
   public
@@ -94,16 +101,16 @@ type
   end;
 
 var
-  TFrmGoodTypeManager: TTFrmGoodTypeManager;
+  FrmGoodTypeManager: TFrmGoodTypeManager;
 
 implementation
 uses
-  MyLib.scTreeView,FireFunction;
+  MyLib.scTreeView,FireFunction,uDmClient;
 {$R *.dfm}
 
 { TForm1 }
 
-procedure TTFrmGoodTypeManager.AddCategory(AName: string; isChild: Boolean);
+procedure TFrmGoodTypeManager.AddCategory(AName: string; isChild: Boolean);
 const
   StrSql:string='SELECT * FROM [dbo].[GOODTYPE] ';
 var
@@ -158,21 +165,23 @@ begin
   end;
 end;
 
-procedure TTFrmGoodTypeManager.FormCreate(Sender: TObject);
+procedure TFrmGoodTypeManager.FormCreate(Sender: TObject);
 begin
   FTreeList:=TDictionary<string,TTreeNode>.Create;
-  FireConnection1.DoConnect;
-  FireQGoodType.OpenData;
+  //FireConnection1.DoConnect;
+  FireQGoodType.DataInfo.Connection:=DmClient.FireConMain;
+
+  //FireQGoodType.OpenData;
   InitTreeViewFromDB;
 end;
 
-procedure TTFrmGoodTypeManager.FormDestroy(Sender: TObject);
+procedure TFrmGoodTypeManager.FormDestroy(Sender: TObject);
 begin
   FTreeList.Clear;
   FTreeList.Free;
 end;
 
-procedure TTFrmGoodTypeManager.InitTreeViewFromDB;
+procedure TFrmGoodTypeManager.InitTreeViewFromDB;
 const
   StrSql:string='SELECT * FROM [dbo].[GOODTYPE] ';
 begin
@@ -186,7 +195,7 @@ begin
   FireQGoodType.Filtered:=False;
 end;
 
-procedure TTFrmGoodTypeManager.N1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.N1Click(Sender: TObject);
 var
   str: string;
 begin
@@ -197,7 +206,7 @@ begin
   end;
 end;
 
-procedure TTFrmGoodTypeManager.N2Click(Sender: TObject);
+procedure TFrmGoodTypeManager.N2Click(Sender: TObject);
 var
   str: string;
 begin
@@ -206,7 +215,7 @@ begin
     AddCategory(str, True);
 end;
 
-procedure TTFrmGoodTypeManager.N4Click(Sender: TObject);
+procedure TFrmGoodTypeManager.N4Click(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;
@@ -244,7 +253,7 @@ begin
 
 end;
 
-procedure TTFrmGoodTypeManager.N5Click(Sender: TObject);
+procedure TFrmGoodTypeManager.N5Click(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;
@@ -291,9 +300,146 @@ begin
 
 end;
 
-procedure TTFrmGoodTypeManager.TreeGoodTypeClick(Sender: TObject);
+procedure TFrmGoodTypeManager.N6Click(Sender: TObject);
+var
+  vNode:TTreeNode;
+  PID,str,FModuleID:string;
+  FileName:string;
+  i,Row:Integer;
+  XLSII:TXLSReadWriteII5;
+  WorkSheet:TXLSworksheet;
+  exited:Boolean;
+begin
+  vNode:=TreeGoodType.Selected;
+  if (vNode=nil) or (vNode.Data=nil)or(vNode.HasChildren) then
+  begin
+    ShowMessage('请先选择分类……');
+    exit;
+  end;
+  PID:=PMyNodeInfo(vNode.Data)^.ID;
+  exited:=False;
+  XLSII:=TXLSReadWriteII5.Create(nil);
+  try
+    if OpenDialogExcel.Execute then
+    begin
+      XLSII.Filename:=Trim(OpenDialogExcel.FileName);
+      XLSII.Read;
+      for I := 0 to XLSII.Count-1 do
+      begin
+        if XLSII.Sheets[i].Name='商品分类' then
+        begin
+          WorkSheet:=XLSII.Sheets[i];
+          exited:=True;
+          Break;
+        end;
+        if not exited then
+        begin
+          ShowMessage('你导入的表格格式不对');
+          exit;
+        end;
+      end;
+      if (WorkSheet.LastRow+1)<2 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据行不足！');
+        exit;
+      end;
+      if (WorkSheet.LastCol+1)<1 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据列不足！');
+        exit;
+      end;
+      if WorkSheet.AsString[0, 0] <> '商品名称' then
+      begin
+        ShowMessage('【商品名称】列未发现');
+        Exit;
+      end;
+      ProgressBar1.Max:=WorkSheet.LastRow+1;
+      ProgressBar1.Min:=1;
+      Panel1.Visible:=True;
+      Panel1.BringToFront;
+      FireQGoodsImport.DataInfo.Connection:=DmClient.FireConMain;
+      FireQGoodsImport.DataInfo.DatabaseCode:='GBB';
+      FireQGoodsImport.DataInfo.SQL.Text:='INSERT INTO dbo.GOODS(ID,MC,FID) VALUES (:ID,:MC,:FID)';
+      FireQGoodsImport.DataInfo.ActiveDesign:=True;
+      FireqGoods.DisableControls;
+      try
+        for I := 1 to WorkSheet.LastRow  do
+        begin
+          if True then
+
+          FireQGoodsImport.ParamByName('ID').AsString:= FireFunction.GetGUID;
+          FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
+          FireQGoodsImport.ParamByName('FID').AsString:=PID;
+        end;
+        if not FireQGoodsImport.ExecDML then
+        begin
+          ShowMessage('执行失败'+FireQGoodsImport.DataInfo.ErrMsg);
+        end;
+        Label1.Caption:='正在导入数据……'+Row.ToString+'/'+(WorkSheet.LastRow+1).ToString;
+        ProgressBar1.Position:=Row;
+        if (Row mod 10)=0 then
+          Application.ProcessMessages;
+      finally
+        Panel1.Visible:=False;
+        FireqGoods.EnableConstraints;
+      end;
+    end;
+  finally
+    XLSII.Free;
+  end;
+  //
+  //ShowMessage('功能添加中，敬请期待……');
+end;
+
+procedure TFrmGoodTypeManager.p1Click(Sender: TObject);
+var
+  vNode:TTreeNode;
+  PID,str,FModuleID:string;
+begin
+  vNode:= TreeGoodType.Selected;
+  if (vNode =nil) or (vNode.Data=nil)or (vNode.HasChildren) then
+  begin
+    ShowMessage('请先选择分类……');
+    exit;
+  end;
+  PID:= PMyNodeInfo(vNode.Data)^.ID;
+  str:='我要输入的商品名称';
+  if InputQuery('商品名称输入','请输入',str) then
+  begin
+    FModuleID:=FireFunction.GetGUID;
+    if FireqGoods.Locate('MC',str,[]) then
+    begin
+      ShowMessage('你输入的商品名称已经存在');
+      exit;
+    end else
+    begin
+      FireqGoods.Append;
+      FireqGoods.FieldByName('ID').AsString:=FModuleID;
+      FireqGoods.FieldByName('MC').AsString:= str;
+      FireqGoods.FieldByName('FID').AsString:=PID;
+      FireqGoods.DataInfo.TableName:='GOODS';
+      FireqGoods.DataInfo.PrimaryKey:='ID';
+      if not FireqGoods.SaveData then
+      begin
+        ShowMessage('数据保存失败'+FireqGoods.DataInfo.ErrMsg);
+      end;
+    end;
+  end;
+end;
+
+procedure TFrmGoodTypeManager.scGPButton2ContextPopup(Sender: TObject;
+  MousePos: TPoint; var Handled: Boolean);
+var
+  vNode:TTreeNode;
+begin
+//  vNode:=TreeGoodType.Selected;
+//  if True then
+
+end;
+
+procedure TFrmGoodTypeManager.TreeGoodTypeClick(Sender: TObject);
 const
-  StrSql:string='SELECT * FROM [dbo].[GOODS] WHERE FENLEIID IN (SELECT ID FROM [dbo].[GOODTYPE] WHERE ID IN( %s ))';
+  StrSql:string='SELECT * FROM [dbo].[GOODS] WHERE FID IN (SELECT ID FROM [dbo].[GOODTYPE] WHERE ID IN( %s ))';
 var
   vSql:string;
 begin
@@ -303,7 +449,7 @@ begin
   FireqGoods.OpenData;
 end;
 
-procedure TTFrmGoodTypeManager.TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
+procedure TFrmGoodTypeManager.TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
   var Handled: Boolean);
 var
   lPTreeNode : TTreeNode;
@@ -344,7 +490,7 @@ begin
   end;
 end;
 
-procedure TTFrmGoodTypeManager.y1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.y1Click(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;

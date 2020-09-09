@@ -1,0 +1,515 @@
+unit ufraModuleDataManipulation;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFraModuleBase, dxSkinsCore,
+  dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkroom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinOffice2016Colorful,
+  dxSkinOffice2016Dark, dxSkinOffice2019Colorful, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver,
+  dxSkinSpringtime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
+  dxSkinTheBezier, dxSkinValentine, dxSkinVisualStudio2013Blue,
+  dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010,
+  dxSkinWhiteprint, dxSkinXmas2008Blue, dxBar, cxClasses, System.Actions,
+  Vcl.ActnList, cxPropertiesStore, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, dxCore, dxCoreClasses, dxHashUtils, dxSpreadSheetCore,
+  dxSpreadSheetCoreFormulas, dxSpreadSheetCoreHistory, dxSpreadSheetCoreStyles,
+  dxSpreadSheetCoreStrs, dxSpreadSheetConditionalFormatting,
+  dxSpreadSheetConditionalFormattingRules, dxSpreadSheetClasses,
+  dxSpreadSheetContainers, dxSpreadSheetFormulas, dxSpreadSheetHyperlinks,
+  dxSpreadSheetFunctions, dxSpreadSheetStyles, dxSpreadSheetGraphics,
+  dxSpreadSheetPrinting, dxSpreadSheetTypes, dxSpreadSheetUtils,
+  dxSpreadSheetFormattedTextUtils, dxBarBuiltInMenu, dxSpreadSheet, cxImageList,
+  System.ImageList, Vcl.ImgList, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireHelper, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDataSet,System.Win.ComObj,
+  XLSReadWriteII5,Winapi.ShellAPI,Xc12DataStyleSheet5,XLSSheetData5,
+  dxSkinsDefaultPainters, scControls;
+
+type
+  TfraModuleDataManipulation = class(TfraModuleBase)
+    barMgrModuleBar1: TdxBar;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxBarLargeButton3: TdxBarLargeButton;
+    dxBarLargeButton5: TdxBarLargeButton;
+    ImageList1: TImageList;
+    cxImageList1: TcxImageList;
+    OpenDialog1: TOpenDialog;
+    Panel1: TPanel;
+    ProgressBar1: TProgressBar;
+    Label1: TLabel;
+    FireQImport: TFireQuery;
+    dxBarLargeButton2: TdxBarLargeButton;
+    scPageControl1: TscPageControl;
+    scTabSheet1: TscTabSheet;
+    scTabSheet2: TscTabSheet;
+    XLS: TdxSpreadSheet;
+    procedure dxBarLargeButton1Click(Sender: TObject);
+    procedure dxBarLargeButton3Click(Sender: TObject);
+    procedure dxBarLargeButton2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    procedure InitModuleLayout; override;
+    procedure GetData; override;
+    procedure CloseData; override;
+    procedure LockChangeEvent(lType: Integer = 1); override;
+    procedure InitShortCut; override; // 初始化快捷键
+    procedure SetDetailPrivilege; override;
+    // 移除快捷键
+    procedure RemoveShortCut; override;
+    { Public declarations }
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
+
+var
+  fraModuleDataManipulation: TfraModuleDataManipulation;
+
+implementation
+uses
+  uDmClient,uFrmMain;
+{$R *.dfm}
+
+procedure TfraModuleDataManipulation.CloseData;
+begin
+  inherited;
+
+end;
+
+constructor TfraModuleDataManipulation.Create(AOwner: TComponent);
+begin
+  inherited;
+  Panel1.Left:=FrmMain.Left+(FrmMain.Width-Panel1.Width) div 2;
+  Panel1.Top:=FrmMain.Top+(FrmMain.Height-Panel1.Height) div 2;
+end;
+
+destructor TfraModuleDataManipulation.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TfraModuleDataManipulation.dxBarLargeButton1Click(Sender: TObject);
+var
+  i,Row:Integer;
+  Worksheet:TdxSpreadSheetTableView;
+begin
+  if OpenDialog1.Execute then
+  begin
+    XLS.LoadFromFile(opendialog1.Filename);
+
+    for i := 0 to XLS.SheetCount - 1 do //查找导入的表中符合要求的表格并将其设为激活项
+    begin
+      Worksheet := XLS.Sheets[i] as TdxSpreadSheetTableView;
+      if Worksheet.Caption = '销售单据明细' then
+        XLS.Sheets[i].Active := True;
+    end;
+
+    if XLS.ActiveSheetAsTable.Rows.Count<2 then
+    begin
+      ShowMessage('你所导的表格不符合要求，数据行不足！');
+      exit;
+    end;
+    if XLS.ActiveSheetAsTable.Columns.Count<15 then
+    begin
+      ShowMessage('你所导的表格不符合要求，数据列不足！');
+      exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 0].AsString <> '流水号' then
+    begin
+      ShowMessage('【流水号】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 1].AsString <> '日期' then
+    begin
+      ShowMessage('【日期】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 2].AsString <> '类型' then
+    begin
+      ShowMessage('【类型】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 3].AsString <> '门店' then
+    begin
+      ShowMessage('【门店】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 4].AsString <> '收银员' then
+    begin
+      ShowMessage('【收银员】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 5].AsString <> '会员' then
+    begin
+      ShowMessage('【会员】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 6].AsString <> '导购员' then
+    begin
+      ShowMessage('【导购员】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 7].AsString <> '商品信息' then
+    begin
+      ShowMessage('【商品信息】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 8].AsString <> '商品条码' then
+    begin
+      ShowMessage('【商品条码】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 9].AsString <> '货号' then
+    begin
+      ShowMessage('【货号】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 10].AsString <> '商品数量' then
+    begin
+      ShowMessage('【商品数量】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 11].AsString <> '商品原价' then
+    begin
+      ShowMessage('【商品原价】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 12].AsString <> '实收金额' then
+    begin
+      ShowMessage('【实收金额】列未发现');
+      Exit;
+    end;
+
+    if XLS.ActiveSheetAsTable.Cells[0, 13].AsString <> '折让金额' then
+    begin
+      ShowMessage('【折让金额】列未发现');
+      Exit;
+    end;
+    if XLS.ActiveSheetAsTable.Cells[0, 14].AsString <> '利润' then
+    begin
+      ShowMessage('【利润】列未发现');
+      Exit;
+    end;
+//    if XLS.ActiveSheetAsTable.Cells[0, 15].AsString <> '分类' then
+//    begin
+//      ShowMessage('【分类】列未发现');
+//      Exit;
+//    end;
+    ProgressBar1.Max:=XLS.ActiveSheetAsTable.Rows.Count;
+    ProgressBar1.Min:=1;
+    Panel1.Visible:=True;
+    Panel1.BringToFront;
+
+    FireQImport.DataInfo.Connection:=DmClient.FireConMain;
+    FireQImport.DataInfo.DatabaseCode:='GBB' ;
+    FireQImport.DataInfo.SQL.Text:='INSERT INTO dbo.[销售单据明细2]( 流水号,日期,类型,门店,收银员,会员,'+
+                                   '导购员,商品信息,商品条码,货号,商品数量,商品原价,实收金额,折让金额,'+
+                                   '利润 ) VALUES (:liushuihao,:riqi,:Type,:mendian,:shouyinyuan,:huiyuan,:daogouyuan,:SHANGPINXINXI,:SHANGPINTIAOMA,:HUOHAO,:Shuliang,:jiage,:shishoujiage,:zherang,:lirun)';
+    FireQImport.DataInfo.ActiveDesign:=True;
+    DmClient.FireQMain.DisableControls;
+    try
+      for Row := 1 to XLS.ActiveSheetAsTable.Rows.Count-1 do
+      begin
+        if (XLS.ActiveSheetAsTable.Cells[Row, 0].IsEmpty) or
+        (XLS.ActiveSheetAsTable.Cells[Row, 0].AsString = '')
+        or (XLS.ActiveSheetAsTable.Cells[Row, 7].AsString = '-') then
+        begin
+          Continue;
+        end
+        else
+        begin
+          if FireQImport.DataInfo.Params.Count>0 then
+          begin
+              for I := 0 to FireQImport.DataInfo.Params.Count-1 do
+              begin
+                if (XLS.ActiveSheetAsTable.Cells[Row,i].IsEmpty)or(XLS.ActiveSheetAsTable.Cells[Row,i].AsString =' ')
+                   or(XLS.ActiveSheetAsTable.Cells[Row,i].AsVariant=Null) then
+                   FireQImport.DataInfo.Params[i].Value:=Null
+                else
+                   FireQImport.DataInfo.Params[i].Value:= XLS.ActiveSheetAsTable.Cells[Row,i].AsVariant;
+              end;
+              if not FireQImport.ExecDML then
+              begin
+                ShowMessage('数据导入失败！'+FireQImport.DataInfo.ErrMsg);
+                Exit;
+              end;
+          end;
+        end;
+        Label1.Caption:='正在导入数据……'+Row.ToString+'/'+XLS.ActiveSheetAsTable.Rows.Count.ToString;
+        ProgressBar1.Position:=Row;
+        if (Row mod 10)=0 then
+          Application.ProcessMessages;
+      end;
+    finally
+      Panel1.Visible:=False;
+      DmClient.FireQMain.EnableControls;
+    end;
+    ShowMessage('数据导入完成！');
+    XLS.ClearAll;
+  end;
+end;
+
+procedure TfraModuleDataManipulation.dxBarLargeButton2Click(Sender: TObject);
+var
+  i,n:Integer;
+  XLS: TXLSReadWriteII5; // 引用XLSReadWriteII5, Xc12DataStyleSheet5, ShellAPI
+begin
+  XLS:=TXLSReadWriteII5.Create(nil);
+  try
+     XLS.Clear;
+      XLS.FileName := ExtractFilePath(paramstr(0)) + 'temp.xls';
+     for i := 0 to 9 do
+       XLS.Sheets[0].AsString[i, 0] := '标题' + IntToStr(i + 1);
+     for i := 0 to 9 do
+       for n := 1 to 19 do
+         XLS.Sheets[0].AsString[i, n] := IntToStr(i + 1) + ':' + IntToStr(n);
+
+     for i := 0 to 9 do // XLS.Sheets[0].LastCol do // 从第一列到最后一列
+     begin
+       for n := 0 to 19 do // 从第一行到最后一行
+       begin
+         XLS.Sheets[0].Range.Items[i, n, i, n].BorderOutlineStyle := cbsThin;
+         XLS.Sheets[0].Range.Items[i, n, i, n].BorderOutlineColor := 0; // 黑色#0
+         if n = 0 then
+         begin
+           XLS.Sheets[0].Cell[i, n].CellColorRGB := 16744448; // 橘黄#FF8000
+           XLS.Sheets[0].Cell[i, n].FontColor := 16777215; // 白色#FFFFFF
+         end
+         else
+           XLS.Sheets[0].Cell[i, n].CellColorRGB := 16777165; // 杏仁灰#FFFFCD
+      end;
+      XLS.Sheets[0].AutoWidthCol(i); // 每列为自动宽度
+    end;
+    XLS.Write;
+     ShellExecute(0, 'Open', PChar(ExtractFilePath(paramstr(0)) + 'temp.xls')
+       , nil, nil, SW_SHOW);
+  finally
+     XLS.Free;
+  end;
+end;
+
+procedure TfraModuleDataManipulation.dxBarLargeButton3Click(Sender: TObject);
+var
+  i,Row:Integer;
+  XLSII:TXLSReadWriteII5;
+  WorkSheet:TXLSworksheet;
+  existed:Boolean;
+begin
+  existed:=False;
+  XLSII:=TXLSReadWriteII5.Create(nil);
+  try
+    if OpenDialog1.Execute then
+    begin
+      XLSII.Filename:=Trim(OpenDialog1.FileName);
+      XLSII.Read;
+      //判断是否存在销售单据明细这个表格，不存在提示退出*******
+      for i := 0 to XLSII.Count-1 do
+      begin
+        if XLSII.Sheets[i].Name = '销售单据明细' then
+        begin
+          Worksheet := XLSII.Sheets[i];
+          existed:=True;
+          Break;//存在跳出循环，因为表明不可能重复
+        end;
+      end;
+      if not existed then
+      begin
+        ShowMessage('你选择的表格不符合要求，销售单据不存在');
+        exit;
+      end;
+      //*******************************************************
+//      ShowMessage('当前文档总表个数：'+XLSII.Count.ToString);
+//      ShowMessage('当前表格行数:'+WorkSheet.LastRow.ToString);
+//      ShowMessage('当前表格列数:'+WorkSheet.LastCol.ToString);
+      if (WorkSheet.LastRow+1)<2 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据行不足！');
+        exit;
+      end;
+      if (WorkSheet.LastCol+1)<16 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据列不足！');
+        exit;
+      end;
+      if WorkSheet.AsString[0, 0] <> '流水号' then
+      begin
+        ShowMessage('【流水号】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[1, 0] <> '日期' then
+      begin
+        ShowMessage('【日期】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[2, 0] <> '类型' then
+      begin
+        ShowMessage('【类型】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[3, 0] <> '门店' then
+      begin
+        ShowMessage('【门店】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[4, 0] <> '收银员' then
+      begin
+        ShowMessage('【收银员】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[5, 0] <> '会员' then
+      begin
+        ShowMessage('【会员】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[6, 0] <> '导购员' then
+      begin
+        ShowMessage('【导购员】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[7, 0] <> '商品信息' then
+      begin
+        ShowMessage('【商品信息】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[8, 0] <> '商品条码' then
+      begin
+        ShowMessage('【商品条码】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[9, 0] <> '货号' then
+      begin
+        ShowMessage('【货号】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[10, 0] <> '商品数量' then
+      begin
+        ShowMessage('【商品数量】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[11, 0] <> '商品原价' then
+      begin
+        ShowMessage('【商品原价】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[12, 0] <> '实收金额' then
+      begin
+        ShowMessage('【实收金额】列未发现');
+        Exit;
+      end;
+
+      if WorkSheet.AsString[13, 0] <> '折让金额' then
+      begin
+        ShowMessage('【折让金额】列未发现');
+        Exit;
+      end;
+      if WorkSheet.AsString[14, 0] <> '利润' then
+      begin
+        ShowMessage('【利润】列未发现');
+        Exit;
+      end;
+      ProgressBar1.Max:=WorkSheet.LastRow+1;
+      ProgressBar1.Min:=1;
+      Panel1.Visible:=True;
+      Panel1.BringToFront;
+
+      FireQImport.DataInfo.Connection:=DmClient.FireConMain;
+      FireQImport.DataInfo.DatabaseCode:='GBB' ;
+      FireQImport.DataInfo.SQL.Text:='INSERT INTO dbo.[销售单据明细1]( 流水号,日期,类型,门店,收银员,会员,'+
+                                     '导购员,商品信息,商品条码,货号,商品数量,商品原价,实收金额,折让金额,'+
+                                     '利润 ) VALUES (:liushuihao,:riqi,:Type,:mendian,:shouyinyuan,:huiyuan,:daogouyuan,:SHANGPINXINXI,:SHANGPINTIAOMA,:HUOHAO,:Shuliang,:jiage,:shishoujiage,:zherang,:lirun)';
+      FireQImport.DataInfo.ActiveDesign:=True;
+      DmClient.FireQMain.DisableControls;
+      try
+        for Row := 1 to WorkSheet.LastRow do
+        begin
+          if (WorkSheet.AsString[0,Row]='')or(WorkSheet.AsString[0,Row]='-')
+            or(WorkSheet.AsString[0,Row]=Null) then
+          begin
+             Continue;
+          end
+          else
+          begin
+            if FireQImport.DataInfo.Params.Count>0 then
+            begin
+                for I := 0 to FireQImport.DataInfo.Params.Count-1 do
+                begin
+                  if (WorkSheet.AsString[i,Row]=Null)or(WorkSheet.AsString[i,Row] =' ') then
+                     FireQImport.DataInfo.Params[i].Value:=Null
+                  else
+                     FireQImport.DataInfo.Params[i].Value:= WorkSheet.AsVariant[i,Row];
+                end;
+                if not FireQImport.ExecDML then
+                begin
+                  ShowMessage('数据导入失败！'+FireQImport.DataInfo.ErrMsg);
+                  Exit;
+                end;
+            end;
+          end;
+          Label1.Caption:='正在导入数据……'+Row.ToString+'/'+(WorkSheet.LastRow+1).ToString;
+          ProgressBar1.Position:=Row;
+          if (Row mod 10)=0 then
+            Application.ProcessMessages;
+        end;
+      finally
+        Panel1.Visible:=False;
+        DmClient.FireQMain.EnableControls;
+      end;
+      ShowMessage('数据导入完成！');
+      XLSII.ClearCells;
+    end;
+  finally
+    XLSII.Free;
+  end;
+end;
+
+procedure TfraModuleDataManipulation.GetData;
+begin
+  inherited;
+
+end;
+
+procedure TfraModuleDataManipulation.InitModuleLayout;
+begin
+  inherited;
+
+end;
+
+procedure TfraModuleDataManipulation.InitShortCut;
+begin
+  inherited;
+
+end;
+
+procedure TfraModuleDataManipulation.LockChangeEvent(lType: Integer);
+begin
+  inherited;
+
+end;
+
+procedure TfraModuleDataManipulation.RemoveShortCut;
+begin
+  inherited;
+
+end;
+
+procedure TfraModuleDataManipulation.SetDetailPrivilege;
+begin
+  inherited;
+
+end;
+
+initialization
+  RegisterClass(TfraModuleDataManipulation);
+end.

@@ -27,7 +27,8 @@ uses
   FireDAC.DApt.Intf, FireHelper, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FireDataSet, VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart,
   VCLTee.DBChart, cxTextEdit, cxMaskEdit, cxDropDownEdit, Vcl.ExtCtrls, uDmClient,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.WinXCtrls, scControls, scGPControls;
+  Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.WinXCtrls, scControls, scGPControls,
+  dxSkinsDefaultPainters;
 
 type
   TfraModuleChart = class(TfraModuleBase)

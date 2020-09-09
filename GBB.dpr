@@ -32,11 +32,12 @@ uses
   ufrmEditBase in 'Base\ufrmEditBase.pas' {frmEditBase},
   ufrmEditUserInfo in 'Form\ufrmEditUserInfo.pas' {frmEditUserInfo},
   uHuiFangFrm in 'Form\uHuiFangFrm.pas' {ReturnViewFrom},
-  uFraModuleGoodClass in 'Module\uFraModuleGoodClass.pas' {FraModuleGoodClass: TFrame},
   Snowflake in 'Snowflake.pas',
-  uFrmGoodTypeManager in 'Form\uFrmGoodTypeManager.pas' {TFrmGoodTypeManager},
+  uFrmGoodTypeManager in 'Form\uFrmGoodTypeManager.pas' {FrmGoodTypeManager},
   FireFunction in 'Utils\FireFunction.pas',
-  MyLib.scTreeView in 'Utils\MyLib.scTreeView.pas';
+  MyLib.scTreeView in 'Utils\MyLib.scTreeView.pas',
+  ufraModuleGoodTypeManager in 'Module\ufraModuleGoodTypeManager.pas' {fraModuleGoodTypeManager: TFrame},
+  uFrmGoodTypeEdit in 'Form\uFrmGoodTypeEdit.pas' {FrmGoodTypeEdit};
 
 {$R *.res}
 var
@@ -50,9 +51,9 @@ begin
     Application.CreateForm(TDm, Dm);
   Application.CreateForm(TDmClient, DmClient);
   Application.CreateForm(TFrmMain, FrmMain);
-  Application.CreateForm(TReturnViewFrom, ReturnViewFrom);
-  Application.CreateForm(TTFrmGoodTypeManager, TFrmGoodTypeManager);
-  Application.Run;
+  Application.CreateForm(TFrmGoodTypeEdit, FrmGoodTypeEdit);
+  //Application.CreateForm(TTFrmGoodTypeManager, TFrmGoodTypeManager);
+    Application.Run;
   end else
   begin
     hPrevInst := FindWindow(PChar('TFrmMain'), nil); //»ñÈ¡³ÌÐò¾ä±ú
