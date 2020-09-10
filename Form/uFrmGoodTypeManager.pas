@@ -133,7 +133,9 @@ begin
         ShowModal;
         if ModalResult=mrOk then
         begin
-          FireqGoods.FieldByName('PINYINCODE').AsString:='';
+          //得到商品名称的拼音码
+          FireqGoods.FieldByName('PINYINCODE').AsString:=GetPYFirst(edtDBMC.Text);
+          //根据条码得到条码的前7位做位货号
           FireqGoods.FieldByName('').AsString:='';
         end;
 
@@ -400,11 +402,17 @@ begin
       try
         for I := 1 to WorkSheet.LastRow  do
         begin
-          if FireQGoodsImport.Locate() then
-
-          FireQGoodsImport.ParamByName('ID').AsString:= FireFunction.GetGUID;
-          FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
-          FireQGoodsImport.ParamByName('FID').AsString:=PID;
+          if FireQGoodsImport.Locate('TM',WorkSheet.AsString[1,i],[]) then
+          begin
+            Continue;
+          end
+          else
+          begin
+            FireQGoodsImport.ParamByName('ID').AsString:= CreateSortID;
+            FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
+            FireQGoodsImport.ParamByName('TM').AsString:= WorkSheet.AsString[1,i];
+            FireQGoodsImport.ParamByName('FID').AsString:=PID;
+          end;
         end;
         if not FireQGoodsImport.ExecDML then
         begin
@@ -441,7 +449,7 @@ begin
   str:='我要输入的商品名称';
   if InputQuery('商品名称输入','请输入',str) then
   begin
-    FModuleID:=FireFunction.GetGUID;
+    FModuleID:=CreateSortID;
     if FireqGoods.Locate('MC',str,[]) then
     begin
       ShowMessage('你输入的商品名称已经存在');
