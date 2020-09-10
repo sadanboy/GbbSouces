@@ -28,7 +28,8 @@ uses
   System.ImageList, Vcl.ImgList, cxImageList, cxClasses, dxBar, System.Actions,
   Vcl.ActnList, cxPropertiesStore, Vcl.ExtCtrls, cxGridLevel, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid,
-  cxImageComboBox, scControls, scGPControls, cxTextEdit, cxContainer;
+  cxImageComboBox, scControls, scGPControls, cxTextEdit, cxContainer,
+  dxSkinsDefaultPainters;
 
 type
   TFraModuleUserInfo = class(TFraModuleBaseList)

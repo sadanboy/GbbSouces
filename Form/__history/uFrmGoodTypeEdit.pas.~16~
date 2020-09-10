@@ -18,9 +18,9 @@ type
   TFrmGoodTypeEdit = class(TfrmEditBase)
     Label1: TLabel;
     Label2: TLabel;
-    edtDBMC: TcxDBTextEdit;
-    edtDBTM: TcxDBTextEdit;
-    edtDBARTI: TcxDBTextEdit;
+    cxDBTextEdit1: TcxDBTextEdit;
+    cxDBTextEdit2: TcxDBTextEdit;
+    cxDBTextEdit3: TcxDBTextEdit;
     Label3: TLabel;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -43,24 +43,10 @@ implementation
 
 
 procedure TFrmGoodTypeEdit.btnOkClick(Sender: TObject);
-var
-  exited:Boolean;
 begin
-  exited:=True;
-  if Trim(edtDBMC.Text).IsEmpty then
-  begin
-    ShowMessage('商品名称不能为空！');
-    edtDBMC.SetFocus;
-    exited:=False;
-  end;
-  if Trim(edtDBTM.Text).IsEmpty then
-  begin
-    ShowMessage('商品条码不能为空！');
-    edtDBTM.SetFocus;
-    exited:=False;
-  end;
-  if exited then
-     inherited;
+  //if  then
+
+  inherited;
 end;
 
 procedure TFrmGoodTypeEdit.FormClose(Sender: TObject; var Action: TCloseAction);

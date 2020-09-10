@@ -43,7 +43,6 @@ begin
     tmpExsit:=True;
    if (Trim(edtFoodCycle.Text)='')or(Trim(edtComWeChat.Text)='')or (not ScedtDate.IsDateInput)or(Trim(RecordMemo.Text)='') then
    begin
-
       if Trim(edtFoodCycle.Text)='' then
       begin
         edtFoodCycle.SetFocus;
@@ -63,12 +62,7 @@ begin
           begin
             RecordMemo.SetFocus;
           end;
-
        tmpExsit:=False;
-
-
-
-
    end ;
    if tmpExsit then
      ModalResult:=mrOk ;

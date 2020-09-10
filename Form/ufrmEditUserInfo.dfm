@@ -4,7 +4,7 @@ inherited frmEditUserInfo: TfrmEditUserInfo
   ClientWidth = 581
   OnShow = FormShow
   ExplicitWidth = 587
-  ExplicitHeight = 370
+  ExplicitHeight = 369
   PixelsPerInch = 96
   TextHeight = 13
   inherited P1: TPanel

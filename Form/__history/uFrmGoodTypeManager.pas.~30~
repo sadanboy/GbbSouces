@@ -28,7 +28,8 @@ uses
   cxDataStorage, cxEdit, cxNavigator, dxDateRanges, cxDBData,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, dxSkinsDefaultPainters, Vcl.Menus,
-  System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline;
+  System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline, XLSSheetData5,
+  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList;
 
 type
   TFrmGoodTypeManager = class(TForm)
@@ -67,8 +68,16 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     PopupMenu2: TPopupMenu;
-    p1: TMenuItem;
-    N6: TMenuItem;
+    SingleAddItem: TMenuItem;
+    BatchAddItem: TMenuItem;
+    OpenDialogExcel: TOpenDialog;
+    Panel1: TPanel;
+    ProgressBar1: TProgressBar;
+    Label1: TLabel;
+    FireQGoodsImport: TFireQuery;
+    ActionList1: TActionList;
+    actSingleAdd: TAction;
+    actBatchAdd: TAction;
     procedure FormCreate(Sender: TObject);
     procedure TreeGoodTypeClick(Sender: TObject);
     procedure TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
@@ -79,10 +88,11 @@ type
     procedure N2Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
-    procedure p1Click(Sender: TObject);
-    procedure N6Click(Sender: TObject);
+    procedure SingleAddItemClick(Sender: TObject);
+    procedure BatchAddItemClick(Sender: TObject);
     procedure scGPButton2ContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
+    procedure actSingleAddExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -98,10 +108,25 @@ var
 
 implementation
 uses
-  MyLib.scTreeView,FireFunction,uDmClient;
+  MyLib.scTreeView,FireFunction,uDmClient,uFrmGoodTypeEdit;
 {$R *.dfm}
 
 { TForm1 }
+
+procedure TFrmGoodTypeManager.actSingleAddExecute(Sender: TObject);
+var
+  AForm:TFrmGoodTypeEdit;
+begin
+  AForm:=TFrmGoodTypeEdit.Create(nil);
+  try
+    with AForm do
+    begin
+
+    end;
+  finally
+    AForm.Free;
+  end;
+end;
 
 procedure TFrmGoodTypeManager.AddCategory(AName: string; isChild: Boolean);
 const
@@ -293,15 +318,98 @@ begin
 
 end;
 
-procedure TFrmGoodTypeManager.N6Click(Sender: TObject);
+procedure TFrmGoodTypeManager.BatchAddItemClick(Sender: TObject);
 var
+  vNode:TTreeNode;
+  PID,str,FModuleID:string;
   FileName:string;
+  i,Row:Integer;
+  XLSII:TXLSReadWriteII5;
+  WorkSheet:TXLSworksheet;
+  exited:Boolean;
 begin
+  vNode:=TreeGoodType.Selected;
+  if (vNode=nil) or (vNode.Data=nil)or(vNode.HasChildren) then
+  begin
+    ShowMessage('请先选择分类……');
+    exit;
+  end;
+  PID:=PMyNodeInfo(vNode.Data)^.ID;
+  exited:=False;
+  XLSII:=TXLSReadWriteII5.Create(nil);
+  try
+    if OpenDialogExcel.Execute then
+    begin
+      XLSII.Filename:=Trim(OpenDialogExcel.FileName);
+      XLSII.Read;
+      for I := 0 to XLSII.Count-1 do
+      begin
+        if XLSII.Sheets[i].Name='商品分类' then
+        begin
+          WorkSheet:=XLSII.Sheets[i];
+          exited:=True;
+          Break;
+        end;
+        if not exited then
+        begin
+          ShowMessage('你导入的表格格式不对');
+          exit;
+        end;
+      end;
+      if (WorkSheet.LastRow+1)<2 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据行不足！');
+        exit;
+      end;
+      if (WorkSheet.LastCol+1)<1 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据列不足！');
+        exit;
+      end;
+      if WorkSheet.AsString[0, 0] <> '商品名称' then
+      begin
+        ShowMessage('【商品名称】列未发现');
+        Exit;
+      end;
+      ProgressBar1.Max:=WorkSheet.LastRow+1;
+      ProgressBar1.Min:=1;
+      Panel1.Visible:=True;
+      Panel1.BringToFront;
+      FireQGoodsImport.DataInfo.Connection:=DmClient.FireConMain;
+      FireQGoodsImport.DataInfo.DatabaseCode:='GBB';
+      FireQGoodsImport.DataInfo.SQL.Text:='INSERT INTO dbo.GOODS(ID,MC,FID) VALUES (:ID,:MC,:FID)';
+      FireQGoodsImport.DataInfo.ActiveDesign:=True;
+      FireqGoods.DisableControls;
+      try
+        for I := 1 to WorkSheet.LastRow  do
+        begin
+          if FireQGoodsImport.Locate() then
+
+          FireQGoodsImport.ParamByName('ID').AsString:= FireFunction.GetGUID;
+          FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
+          FireQGoodsImport.ParamByName('FID').AsString:=PID;
+        end;
+        if not FireQGoodsImport.ExecDML then
+        begin
+          ShowMessage('执行失败'+FireQGoodsImport.DataInfo.ErrMsg);
+        end;
+        Label1.Caption:='正在导入数据……'+Row.ToString+'/'+(WorkSheet.LastRow+1).ToString;
+        ProgressBar1.Position:=Row;
+        if (Row mod 10)=0 then
+          Application.ProcessMessages;
+      finally
+        Panel1.Visible:=False;
+        FireqGoods.EnableConstraints;
+      end;
+    end;
+  finally
+    XLSII.Free;
+  end;
   //
-  ShowMessage('功能添加中，敬请期待……');
+  //ShowMessage('功能添加中，敬请期待……');
 end;
 
-procedure TFrmGoodTypeManager.p1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.SingleAddItemClick(Sender: TObject);
 var
   vNode:TTreeNode;
   PID,str,FModuleID:string;
@@ -309,17 +417,17 @@ begin
   vNode:= TreeGoodType.Selected;
   if (vNode =nil) or (vNode.Data=nil)or (vNode.HasChildren) then
   begin
-    ShowMessage('请先选择分类');
+    ShowMessage('请先选择分类……');
     exit;
   end;
   PID:= PMyNodeInfo(vNode.Data)^.ID;
-  str:='我要输入的商品信息';
-  if InputQuery('商品信息输入','请输入',str) then
+  str:='我要输入的商品名称';
+  if InputQuery('商品名称输入','请输入',str) then
   begin
     FModuleID:=FireFunction.GetGUID;
     if FireqGoods.Locate('MC',str,[]) then
     begin
-      ShowMessage('你输入的商品已经存在');
+      ShowMessage('你输入的商品名称已经存在');
       exit;
     end else
     begin

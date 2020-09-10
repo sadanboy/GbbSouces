@@ -40,7 +40,7 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
           Font.Color = clBlue
           Font.Height = -13
           Font.Name = #24494#36719#38597#40657
-          Font.Style = [fsBold]
+          Font.Style = []
           Font.Quality = fqClearTypeNatural
           ParentFont = False
         end
@@ -54,7 +54,7 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
           Font.Color = clBlue
           Font.Height = -13
           Font.Name = #24494#36719#38597#40657
-          Font.Style = [fsBold]
+          Font.Style = []
           Font.Quality = fqClearTypeNatural
           ParentFont = False
         end
@@ -68,25 +68,25 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
           Font.Color = clBlue
           Font.Height = -13
           Font.Name = #24494#36719#38597#40657
-          Font.Style = [fsBold]
+          Font.Style = []
           Font.Quality = fqClearTypeNatural
           ParentFont = False
         end
-        object edtDBMC: TcxDBTextEdit
+        object cxDBTextEdit1: TcxDBTextEdit
           Left = 152
           Top = 16
           DataBinding.DataField = 'MC'
           TabOrder = 0
           Width = 273
         end
-        object edtDBTM: TcxDBTextEdit
+        object cxDBTextEdit2: TcxDBTextEdit
           Left = 152
           Top = 64
           DataBinding.DataField = 'TM'
           TabOrder = 1
           Width = 273
         end
-        object edtDBARTI: TcxDBTextEdit
+        object cxDBTextEdit3: TcxDBTextEdit
           Left = 152
           Top = 112
           DataBinding.DataField = 'ARTICLENUMBER'

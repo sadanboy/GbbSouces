@@ -21,7 +21,7 @@ uses
   dxSkinXmas2008Blue, acAlphaHints, Vcl.Controls, acAlphaImageList,
   cxLookAndFeels, dxSkinsForm, dxAlertWindow, System.ImageList, Vcl.ImgList,
   cxImageList, cxClasses, cxContainer, cxEdit, dxSkiniMaginary,
-  dxSkinOffice2019Colorful;
+  dxSkinOffice2019Colorful, dxSkinsDefaultPainters;
 
 type
   TDm = class(TDataModule)

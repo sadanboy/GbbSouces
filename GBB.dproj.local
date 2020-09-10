@@ -1,19 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.897,=E:\gbb\GbbSouces\Utils\FireFunction.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.810,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.dfm=E:\gbb\GbbSouces\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.555,=E:\gbb\GbbSouces\Form\uFrmGoodTypeManager.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.dfm=F:\项目\GBB200826\GbbSouces\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.897,=E:\gbb\GbbSouces\Utils\FireFunction.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm=E:\gbb\GbbSouces\Unit2.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.420,E:\gbb\GbbSouces\Module\uFraModuleGoodClass.pas=</Transaction>
     <Transaction>1899-12-30 00:00:00.000.905,=E:\gbb\GbbSouces\Utils\MyLib.scTreeView.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.dfm=F:\项目\GBB200826\GbbSouces\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.189,=E:\gbb\GbbSouces\Unit2.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.016,=E:\gbb\GbbSouces\Snowflake.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.748,=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=E:\gbb\GbbSouces\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.pas=E:\gbb\GbbSouces\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.pas=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
-    <Transaction>2020-09-09 09:42:21.420,E:\gbb\GbbSouces\Module\uFraModuleGoodClass.pas=</Transaction>
-    <Transaction>2020-09-09 09:43:11.810,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
-    <Transaction>2020-09-09 09:44:08.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.dfm=E:\gbb\GbbSouces\Unit1.dfm</Transaction>
-    <Transaction>2020-09-09 09:44:08.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.pas=E:\gbb\GbbSouces\Unit1.pas</Transaction>
-    <Transaction>2020-09-09 10:08:19.189,=E:\gbb\GbbSouces\Unit2.pas</Transaction>
-    <Transaction>2020-09-09 10:11:06.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=E:\gbb\GbbSouces\Unit2.pas</Transaction>
-    <Transaction>2020-09-09 10:11:06.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm=E:\gbb\GbbSouces\Unit2.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.748,=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>2020-09-10 09:17:26.736,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=</Transaction>
+    <Transaction>2020-09-10 09:18:00.698,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>2020-09-10 09:19:12.291,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>2020-09-10 09:19:12.291,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm=E:\gbb\GbbSouces\Unit1.dfm</Transaction>
   </Transactions>
 </BorlandProject>

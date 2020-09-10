@@ -887,7 +887,6 @@ inherited FraModuleUserInfo: TFraModuleUserInfo
     DataSet = FireQUser
   end
   object FireQUser: TFireQuery
-    Active = True
     FieldDefs = <
       item
         Name = 'UserID'
@@ -938,7 +937,7 @@ inherited FraModuleUserInfo: TFraModuleUserInfo
       'select * from tab_User')
     DataInfo.Params = <>
     DataInfo.Connection = DmClient.FireConMain
-    DataInfo.ActiveDesign = True
+    DataInfo.ActiveDesign = False
     DataInfo.PageSize = -1
     DataInfo.PageIndex = -1
     DataInfo.PageTotal = 0

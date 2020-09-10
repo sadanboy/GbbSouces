@@ -51,16 +51,15 @@ begin
   begin
     ShowMessage('商品名称不能为空！');
     edtDBMC.SetFocus;
-    exited:=False;
   end;
   if Trim(edtDBTM.Text).IsEmpty then
   begin
     ShowMessage('商品条码不能为空！');
     edtDBTM.SetFocus;
-    exited:=False;
   end;
-  if exited then
-     inherited;
+
+
+  inherited;
 end;
 
 procedure TFrmGoodTypeEdit.FormClose(Sender: TObject; var Action: TCloseAction);

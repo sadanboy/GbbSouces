@@ -29,7 +29,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, dxSkinsDefaultPainters, Vcl.Menus,
   System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline, XLSSheetData5,
-  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls;
+  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList;
 
 type
   TFrmGoodTypeManager = class(TForm)
@@ -68,14 +68,16 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     PopupMenu2: TPopupMenu;
-    p1: TMenuItem;
-    N6: TMenuItem;
+    SingleAddItem: TMenuItem;
+    BatchAddItem: TMenuItem;
     OpenDialogExcel: TOpenDialog;
-    XLSReadWriteII51: TXLSReadWriteII5;
     Panel1: TPanel;
     ProgressBar1: TProgressBar;
     Label1: TLabel;
     FireQGoodsImport: TFireQuery;
+    ActionList1: TActionList;
+    actSingleAdd: TAction;
+    actBatchAdd: TAction;
     procedure FormCreate(Sender: TObject);
     procedure TreeGoodTypeClick(Sender: TObject);
     procedure TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
@@ -86,10 +88,11 @@ type
     procedure N2Click(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure N5Click(Sender: TObject);
-    procedure p1Click(Sender: TObject);
-    procedure N6Click(Sender: TObject);
+    procedure SingleAddItemClick(Sender: TObject);
+    procedure BatchAddItemClick(Sender: TObject);
     procedure scGPButton2ContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
+    procedure actSingleAddExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -105,10 +108,42 @@ var
 
 implementation
 uses
-  MyLib.scTreeView,FireFunction,uDmClient;
+  MyLib.scTreeView,FireFunction,uDmClient,uFrmGoodTypeEdit,uWinPublic;
 {$R *.dfm}
 
 { TForm1 }
+
+procedure TFrmGoodTypeManager.actSingleAddExecute(Sender: TObject);
+var
+  AForm:TFrmGoodTypeEdit;
+begin
+  AForm:=TFrmGoodTypeEdit.Create(nil);
+  try
+    with AForm do
+    begin
+      FFormState:=fesadd;
+      Acd:=FireqGoods;
+      Ads:=DS1;
+      if FireqGoods.Active then
+      begin
+        FireqGoods.DataInfo.TableName:='GOODS';
+        FireqGoods.DataInfo.PrimaryKey:='ID';
+        FireqGoods.Append;
+        FireqGoods.FieldByName('ID').AsString:=CreateSortID;
+        ShowModal;
+        if ModalResult=mrOk then
+        begin
+          FireqGoods.FieldByName('PINYINCODE').AsString:='';
+          FireqGoods.FieldByName('').AsString:='';
+        end;
+
+
+      end;
+    end;
+  finally
+    AForm.Free;
+  end;
+end;
 
 procedure TFrmGoodTypeManager.AddCategory(AName: string; isChild: Boolean);
 const
@@ -300,7 +335,7 @@ begin
 
 end;
 
-procedure TFrmGoodTypeManager.N6Click(Sender: TObject);
+procedure TFrmGoodTypeManager.BatchAddItemClick(Sender: TObject);
 var
   vNode:TTreeNode;
   PID,str,FModuleID:string;
@@ -365,7 +400,7 @@ begin
       try
         for I := 1 to WorkSheet.LastRow  do
         begin
-          if True then
+          if FireQGoodsImport.Locate() then
 
           FireQGoodsImport.ParamByName('ID').AsString:= FireFunction.GetGUID;
           FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
@@ -391,7 +426,7 @@ begin
   //ShowMessage('功能添加中，敬请期待……');
 end;
 
-procedure TFrmGoodTypeManager.p1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.SingleAddItemClick(Sender: TObject);
 var
   vNode:TTreeNode;
   PID,str,FModuleID:string;

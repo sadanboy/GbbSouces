@@ -64,7 +64,6 @@ inherited ReturnEditFrom: TReturnEditFrom
     end
     inherited edtComWeChat: TcxImageComboBox
       Top = 102
-      Properties.Images = Dm.imgList16X16
       Properties.Items = <
         item
           Description = #26410#21152#24494#20449

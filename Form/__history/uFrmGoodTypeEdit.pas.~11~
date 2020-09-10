@@ -18,20 +18,24 @@ type
   TFrmGoodTypeEdit = class(TfrmEditBase)
     Label1: TLabel;
     Label2: TLabel;
-    edtDBMC: TcxDBTextEdit;
-    edtDBTM: TcxDBTextEdit;
-    edtDBARTI: TcxDBTextEdit;
+    cxDBTextEdit1: TcxDBTextEdit;
+    cxDBTextEdit2: TcxDBTextEdit;
+    FireQGoodSAdd: TFireQuery;
+    DSGOODSAdd: TDataSource;
+    cxDBTextEdit3: TcxDBTextEdit;
     Label3: TLabel;
+    FireQGoodSAddID: TStringField;
+    FireQGoodSAddMC: TStringField;
+    FireQGoodSAddTM: TStringField;
+    FireQGoodSAddFID: TStringField;
+    FireQGoodSAddARTICLENUMBER: TStringField;
+    FireQGoodSAddPINYINCODE: TStringField;
     procedure FormShow(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnOkClick(Sender: TObject);
   private
     { Private declarations }
+
   public
     { Public declarations }
-    FFrmState: FormEditState;
-    FFModuleID: string;
   end;
 
 var
@@ -42,55 +46,9 @@ implementation
 {$R *.dfm}
 
 
-procedure TFrmGoodTypeEdit.btnOkClick(Sender: TObject);
-var
-  exited:Boolean;
-begin
-  exited:=True;
-  if Trim(edtDBMC.Text).IsEmpty then
-  begin
-    ShowMessage('商品名称不能为空！');
-    edtDBMC.SetFocus;
-    exited:=False;
-  end;
-  if Trim(edtDBTM.Text).IsEmpty then
-  begin
-    ShowMessage('商品条码不能为空！');
-    edtDBTM.SetFocus;
-    exited:=False;
-  end;
-  if exited then
-     inherited;
-end;
-
-procedure TFrmGoodTypeEdit.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  inherited;
-  Action:=caFree;
-  if FrmGoodTypeEdit<>nil then
-     FrmGoodTypeEdit:=nil;
-end;
-
-procedure TFrmGoodTypeEdit.FormCreate(Sender: TObject);
-begin
-  inherited;
-  FFrmState:=fesAdd;
-end;
-
 procedure TFrmGoodTypeEdit.FormShow(Sender: TObject);
 begin
   inherited;
-  case FFormState of
-    fesAdd:
-    begin
-      Self.Caption:='商品信息【增加】' ;
-    end;
-    fesEdit:
-    begin
-      Self.Caption:='商品信息【编辑】';
-    end;
-  end;
-
   SetDs(cxTabSheet1,Ads);
 end;
 

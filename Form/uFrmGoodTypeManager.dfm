@@ -50,7 +50,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     FrameWidth = 2
     ScaleFrameWdith = False
     StorePaintBuffer = True
-    ExplicitHeight = 618
     object TreeGoodType: TscTreeView
       AlignWithMargins = True
       Left = 8
@@ -96,7 +95,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
       ButtonStyle = scebsModernArrow
       OnClick = TreeGoodTypeClick
       OnContextPopup = TreeGoodTypeContextPopup
-      ExplicitHeight = 579
     end
   end
   object scGPGroupBox2: TscGPGroupBox
@@ -132,8 +130,36 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     FrameWidth = 2
     ScaleFrameWdith = False
     StorePaintBuffer = True
-    ExplicitWidth = 810
-    ExplicitHeight = 618
+    object Panel1: TPanel
+      Left = 40
+      Top = 288
+      Width = 529
+      Height = 81
+      TabOrder = 3
+      Visible = False
+      object Label1: TLabel
+        Left = 8
+        Top = 8
+        Width = 131
+        Height = 26
+        Caption = #25968#25454#23548#20837#20013#8230#8230
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -19
+        Font.Name = #24494#36719#38597#40657
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object ProgressBar1: TProgressBar
+        Left = 8
+        Top = 48
+        Width = 513
+        Height = 25
+        Smooth = True
+        Step = 1
+        TabOrder = 0
+      end
+    end
     object scGPPanel1: TscGPPanel
       AlignWithMargins = True
       Left = 5
@@ -180,7 +206,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
       StorePaintBuffer = True
       Sizeable = False
       WallpaperIndex = -1
-      ExplicitWidth = 800
       object scGPButton2: TscGPButton
         Left = 21
         Top = 3
@@ -818,7 +843,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
       FrameWidth = 1
       ScaleFrameWdith = False
       StorePaintBuffer = True
-      ExplicitWidth = 800
     end
     object cxGrid1: TcxGrid
       AlignWithMargins = True
@@ -830,8 +854,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
       BorderStyle = cxcbsNone
       TabOrder = 2
       LookAndFeel.NativeStyle = False
-      ExplicitWidth = 800
-      ExplicitHeight = 468
       object cxGrid1DBTableView1: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.DataSource = DS1
@@ -854,36 +876,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
       end
       object cxGrid1Level1: TcxGridLevel
         GridView = cxGrid1DBTableView1
-      end
-    end
-    object Panel1: TPanel
-      Left = 40
-      Top = 288
-      Width = 529
-      Height = 81
-      TabOrder = 3
-      Visible = False
-      object Label1: TLabel
-        Left = 8
-        Top = 8
-        Width = 131
-        Height = 26
-        Caption = #25968#25454#23548#20837#20013#8230#8230
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -19
-        Font.Name = #24494#36719#38597#40657
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object ProgressBar1: TProgressBar
-        Left = 8
-        Top = 48
-        Width = 513
-        Height = 25
-        Smooth = True
-        Step = 1
-        TabOrder = 0
       end
     end
   end
@@ -1550,13 +1542,13 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
   object PopupMenu2: TPopupMenu
     Left = 511
     Top = 211
-    object p1: TMenuItem
+    object SingleAddItem: TMenuItem
       Caption = #21333#26465#22686#21152
-      OnClick = p1Click
+      OnClick = SingleAddItemClick
     end
-    object N6: TMenuItem
+    object BatchAddItem: TMenuItem
       Caption = #25209#37327#22686#21152
-      OnClick = N6Click
+      OnClick = BatchAddItemClick
     end
   end
   object OpenDialogExcel: TOpenDialog
@@ -1564,14 +1556,6 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     Filter = 'execl'#25991#20214'|*.xlsx|execl'#25991#20214'|*.xls'
     Left = 615
     Top = 227
-  end
-  object XLSReadWriteII51: TXLSReadWriteII5
-    ComponentVersion = '6.00.47'
-    Version = xvExcel2007
-    DirectRead = False
-    DirectWrite = False
-    Left = 727
-    Top = 235
   end
   object FireQGoodsImport: TFireQuery
     CachedUpdates = True
@@ -1594,5 +1578,16 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     DataInfo.AsynMode = False
     Left = 576
     Top = 312
+  end
+  object ActionList1: TActionList
+    Left = 783
+    Top = 227
+    object actSingleAdd: TAction
+      Caption = #21333#26465#22686#21152
+      OnExecute = actSingleAddExecute
+    end
+    object actBatchAdd: TAction
+      Caption = 'actBatchAdd'
+    end
   end
 end
