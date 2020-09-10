@@ -138,8 +138,6 @@ begin
           //根据条码得到条码的前7位做位货号
           FireqGoods.FieldByName('').AsString:='';
         end;
-
-
       end;
     end;
   finally
