@@ -865,6 +865,7 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
           Caption = #21830#21697#21517#31216
           DataBinding.FieldName = 'MC'
           HeaderAlignmentHorz = taCenter
+          Width = 135
         end
         object cxGrid1DBTableView1Column3: TcxGridDBColumn
           Caption = #21830#21697#20998#31867
@@ -872,6 +873,21 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
           PropertiesClassName = 'TdxLookupSparklineProperties'
           Properties.Series = <>
           HeaderAlignmentHorz = taCenter
+          Width = 118
+        end
+        object cxGrid1DBTableView1Column2: TcxGridDBColumn
+          DataBinding.FieldName = 'TM'
+          HeaderAlignmentHorz = taCenter
+          Width = 113
+        end
+        object cxGrid1DBTableView1Column4: TcxGridDBColumn
+          DataBinding.FieldName = 'PINYINCODE'
+          HeaderAlignmentHorz = taCenter
+          Width = 116
+        end
+        object cxGrid1DBTableView1Column5: TcxGridDBColumn
+          DataBinding.FieldName = 'ARTICLENUMBER'
+          Width = 131
         end
       end
       object cxGrid1Level1: TcxGridLevel
@@ -1217,8 +1233,8 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     DataInfo.AffectMustOne = False
     DataInfo.RowsAffected = 0
     DataInfo.AsynMode = False
-    Left = 367
-    Top = 315
+    Left = 1031
+    Top = 27
     object FireQGoodTypeID: TStringField
       FieldName = 'ID'
       Required = True
@@ -1236,78 +1252,9 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     end
   end
   object DS1: TDataSource
-    DataSet = FireqGoods
-    Left = 456
-    Top = 208
-  end
-  object FireqGoods: TFireQuery
-    FieldDefs = <
-      item
-        Name = 'ID'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'MC'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'TM'
-        DataType = ftString
-        Size = 30
-      end
-      item
-        Name = 'FID'
-        DataType = ftString
-        Size = 30
-      end>
-    CachedUpdates = True
-    IndexDefs = <>
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
-    UpdateOptions.LockWait = True
-    UpdateOptions.FetchGeneratorsPoint = gpNone
-    UpdateOptions.CheckRequired = False
-    StoreDefs = True
-    DataInfo.DatabaseCode = 'GBB'
-    DataInfo.SQL.Strings = (
-      'select * from goods')
-    DataInfo.Params = <>
-    DataInfo.Connection = DmClient.FireConMain
-    DataInfo.ActiveDesign = False
-    DataInfo.PageSize = -1
-    DataInfo.PageIndex = -1
-    DataInfo.PageTotal = 0
-    DataInfo.PageTotalCount = 0
-    DataInfo.StoredProcReturnDataSet = False
-    DataInfo.AffectMaxCount = -1
-    DataInfo.AffectMustOne = False
-    DataInfo.RowsAffected = 0
-    DataInfo.AsynMode = False
-    Left = 408
-    Top = 208
-    object FireqGoodsID: TStringField
-      FieldName = 'ID'
-      Required = True
-      Size = 50
-    end
-    object FireqGoodsMC: TStringField
-      FieldName = 'MC'
-      Size = 50
-    end
-    object FireqGoodsTM: TStringField
-      FieldName = 'TM'
-      Size = 30
-    end
-    object FireqGoodsFID: TStringField
-      FieldName = 'FID'
-      Size = 30
-    end
+    DataSet = DmClient.FireqGoods
+    Left = 1136
+    Top = 24
   end
   object Img16: TcxImageList
     SourceDPI = 96
@@ -1540,11 +1487,11 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     end
   end
   object PopupMenu2: TPopupMenu
-    Left = 511
-    Top = 211
+    Left = 1063
+    Top = 203
     object SingleAddItem: TMenuItem
       Caption = #21333#26465#22686#21152
-      OnClick = SingleAddItemClick
+      OnClick = actSingleAddExecute
     end
     object BatchAddItem: TMenuItem
       Caption = #25209#37327#22686#21152
@@ -1554,8 +1501,8 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
   object OpenDialogExcel: TOpenDialog
     DefaultExt = '*.xlsx'
     Filter = 'execl'#25991#20214'|*.xlsx|execl'#25991#20214'|*.xls'
-    Left = 615
-    Top = 227
+    Left = 1063
+    Top = 155
   end
   object FireQGoodsImport: TFireQuery
     CachedUpdates = True
@@ -1576,18 +1523,19 @@ object FrmGoodTypeManager: TFrmGoodTypeManager
     DataInfo.AffectMustOne = False
     DataInfo.RowsAffected = 0
     DataInfo.AsynMode = False
-    Left = 576
-    Top = 312
+    Left = 960
+    Top = 24
   end
   object ActionList1: TActionList
-    Left = 783
-    Top = 227
+    Left = 1119
+    Top = 203
     object actSingleAdd: TAction
       Caption = #21333#26465#22686#21152
       OnExecute = actSingleAddExecute
     end
     object actBatchAdd: TAction
       Caption = 'actBatchAdd'
+      OnExecute = actBatchAddExecute
     end
   end
 end

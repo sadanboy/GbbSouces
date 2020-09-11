@@ -11,16 +11,16 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
   inherited P1: TPanel
     Width = 531
     Height = 204
-    ExplicitWidth = 509
-    ExplicitHeight = 162
+    ExplicitWidth = 531
+    ExplicitHeight = 204
     inherited cxPageControl1: TcxPageControl
       Width = 501
       Height = 191
       LookAndFeel.Kind = lfUltraFlat
       LookAndFeel.NativeStyle = True
       LookAndFeel.SkinName = 'UserSkin'
-      ExplicitWidth = 479
-      ExplicitHeight = 149
+      ExplicitWidth = 501
+      ExplicitHeight = 191
       ClientRectBottom = 187
       ClientRectLeft = 4
       ClientRectRight = 497
@@ -28,8 +28,8 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
       inherited cxTabSheet1: TcxTabSheet
         ExplicitLeft = 4
         ExplicitTop = 30
-        ExplicitWidth = 471
-        ExplicitHeight = 115
+        ExplicitWidth = 493
+        ExplicitHeight = 157
         object Label1: TLabel
           Left = 64
           Top = 20
@@ -81,7 +81,7 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
         end
         object edtDBTM: TcxDBTextEdit
           Left = 152
-          Top = 64
+          Top = 65
           DataBinding.DataField = 'TM'
           TabOrder = 1
           Width = 273
@@ -93,21 +93,28 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
           TabOrder = 2
           Width = 273
         end
+        object edtTM: TcxTextEdit
+          Left = 368
+          Top = 32
+          TabOrder = 3
+          TextHint = #21830#21697#26465#30721
+          Width = 273
+        end
       end
     end
   end
   inherited Panel1: TPanel
     Top = 204
     Width = 531
-    ExplicitTop = 162
-    ExplicitWidth = 509
+    ExplicitTop = 204
+    ExplicitWidth = 531
     inherited btnOKAndAppend: TcxButton
       Left = 296
-      ExplicitLeft = 274
+      ExplicitLeft = 296
     end
     inherited btnOk: TcxButton
       Left = 427
-      ExplicitLeft = 405
+      ExplicitLeft = 427
     end
   end
 end

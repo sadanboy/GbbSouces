@@ -170,4 +170,91 @@ object DmClient: TDmClient
     Left = 136
     Top = 48
   end
+  object FireqGoods: TFireQuery
+    FieldDefs = <
+      item
+        Name = 'ID'
+        Attributes = [faRequired]
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'MC'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'TM'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'FID'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'ARTICLENUMBER'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'PINYINCODE'
+        DataType = ftString
+        Size = 50
+      end>
+    CachedUpdates = True
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    StoreDefs = True
+    DataInfo.DatabaseCode = 'GBB'
+    DataInfo.SQL.Strings = (
+      'select * from goods')
+    DataInfo.Params = <>
+    DataInfo.Connection = FireConMain
+    DataInfo.ActiveDesign = False
+    DataInfo.PageSize = -1
+    DataInfo.PageIndex = -1
+    DataInfo.PageTotal = 0
+    DataInfo.PageTotalCount = 0
+    DataInfo.StoredProcReturnDataSet = False
+    DataInfo.AffectMaxCount = -1
+    DataInfo.AffectMustOne = False
+    DataInfo.RowsAffected = 0
+    DataInfo.AsynMode = False
+    Left = 77
+    Top = 168
+    object FireqGoodsID: TStringField
+      FieldName = 'ID'
+      Required = True
+      Size = 50
+    end
+    object FireqGoodsMC: TStringField
+      FieldName = 'MC'
+      Size = 50
+    end
+    object FireqGoodsTM: TStringField
+      FieldName = 'TM'
+      Size = 30
+    end
+    object FireqGoodsFID: TStringField
+      FieldName = 'FID'
+      Size = 30
+    end
+    object FireqGoodsARTICLENUMBER: TStringField
+      FieldName = 'ARTICLENUMBER'
+      Size = 30
+    end
+    object FireqGoodsPINYINCODE: TStringField
+      FieldName = 'PINYINCODE'
+      Size = 50
+    end
+  end
 end

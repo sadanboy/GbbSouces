@@ -27,6 +27,13 @@ type
   TDmClient = class(TDataModule)
     FireConMain: TFireConnection;
     FireQMain: TFireQuery;
+    FireqGoods: TFireQuery;
+    FireqGoodsID: TStringField;
+    FireqGoodsMC: TStringField;
+    FireqGoodsTM: TStringField;
+    FireqGoodsFID: TStringField;
+    FireqGoodsARTICLENUMBER: TStringField;
+    FireqGoodsPINYINCODE: TStringField;
   private
     { Private declarations }
   public

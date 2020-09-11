@@ -22,6 +22,7 @@ type
     edtDBTM: TcxDBTextEdit;
     edtDBARTI: TcxDBTextEdit;
     Label3: TLabel;
+    edtTM: TcxTextEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -53,7 +54,7 @@ begin
     edtDBMC.SetFocus;
     exited:=False;
   end;
-  if Trim(edtDBTM.Text).IsEmpty then
+  if Trim(edtTM.Text).IsEmpty then
   begin
     ShowMessage('商品条码不能为空！');
     edtDBTM.SetFocus;
@@ -79,8 +80,7 @@ end;
 
 procedure TFrmGoodTypeEdit.FormShow(Sender: TObject);
 begin
-  inherited;
-  case FFormState of
+  case FFrmState of
     fesAdd:
     begin
       Self.Caption:='商品信息【增加】' ;
@@ -90,7 +90,6 @@ begin
       Self.Caption:='商品信息【编辑】';
     end;
   end;
-
   SetDs(cxTabSheet1,Ads);
 end;
 

@@ -29,7 +29,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, dxSkinsDefaultPainters, Vcl.Menus,
   System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline, XLSSheetData5,
-  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList;
+  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,System.StrUtils;
 
 type
   TFrmGoodTypeManager = class(TForm)
@@ -46,11 +46,6 @@ type
     cxGrid1DBTableView1Column1: TcxGridDBColumn;
     cxGrid1DBTableView1Column3: TcxGridDBColumn;
     DS1: TDataSource;
-    FireqGoods: TFireQuery;
-    FireqGoodsID: TStringField;
-    FireqGoodsMC: TStringField;
-    FireqGoodsTM: TStringField;
-    FireqGoodsFID: TStringField;
     FireQGoodTypeID: TStringField;
     FireQGoodTypeFID: TStringField;
     FireQGoodTypeMC: TStringField;
@@ -78,6 +73,9 @@ type
     ActionList1: TActionList;
     actSingleAdd: TAction;
     actBatchAdd: TAction;
+    cxGrid1DBTableView1Column2: TcxGridDBColumn;
+    cxGrid1DBTableView1Column4: TcxGridDBColumn;
+    cxGrid1DBTableView1Column5: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure TreeGoodTypeClick(Sender: TObject);
     procedure TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
@@ -93,6 +91,7 @@ type
     procedure scGPButton2ContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
     procedure actSingleAddExecute(Sender: TObject);
+    procedure actBatchAddExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -113,30 +112,59 @@ uses
 
 { TForm1 }
 
+procedure TFrmGoodTypeManager.actBatchAddExecute(Sender: TObject);
+begin
+//
+end;
+
 procedure TFrmGoodTypeManager.actSingleAddExecute(Sender: TObject);
 var
   AForm:TFrmGoodTypeEdit;
+  PID:string;
+  vNode:TTreeNode;
 begin
+  vNode:=TreeGoodType.Selected;
+  if (vNode=nil) or (vNode.Data=nil)or(vNode.HasChildren) then
+  begin
+    ShowMessage('请先选择分类……');
+    exit;
+  end;
+  PID:=PMyNodeInfo(vNode.Data)^.ID;
+
   AForm:=TFrmGoodTypeEdit.Create(nil);
   try
     with AForm do
     begin
-      FFormState:=fesadd;
-      Acd:=FireqGoods;
+      FFrmState:=fesadd;
+      Acd:=DmClient.FireqGoods;
       Ads:=DS1;
-      if FireqGoods.Active then
+      if DmClient.FireqGoods.Active then
       begin
-        FireqGoods.DataInfo.TableName:='GOODS';
-        FireqGoods.DataInfo.PrimaryKey:='ID';
-        FireqGoods.Append;
-        FireqGoods.FieldByName('ID').AsString:=CreateSortID;
+        DmClient.FireqGoods.DataInfo.TableName:='GOODS';
+        DmClient.FireqGoods.DataInfo.PrimaryKey:='ID';
+        DmClient.FireqGoods.Append;
+        DmClient.FireqGoods.FieldByName('ID').AsString:=CreateSortID;
         ShowModal;
         if ModalResult=mrOk then
         begin
+           DmClient.FireqGoods.FieldByName('FID').AsString:=PID;
           //得到商品名称的拼音码
-          FireqGoods.FieldByName('PINYINCODE').AsString:=GetPYFirst(edtDBMC.Text);
+          DmClient.FireqGoods.FieldByName('PINYINCODE').AsString:=GetPYFirst(edtDBMC.Text);
           //根据条码得到条码的前7位做位货号
-          FireqGoods.FieldByName('').AsString:='';
+          DmClient.FireqGoods.FieldByName('ARTICLENUMBER').AsString:=LeftStr(edtDBTM.Text,7);
+//          if DmClient.FireqGoods.Locate('TM',Trim(edtDBTM.Text),[loCaseInsensitive]) then
+//          begin
+//            ShowMessage('该条码的商品已经存在，请重新输入……');
+//            //edtDBTM.SetFocus;
+//            Exit;
+//          end
+//          else
+            DmClient.FireqGoods.FieldByName('TM').AsString:=Trim(edtDBTM.Text);
+          if not DmClient.FireqGoods.SaveData then
+          begin
+             ShowMessage('数据保存失败，失败原因：'+DmClient.FireqGoods.DataInfo.ErrMsg);
+             //Exit;
+          end;
         end;
       end;
     end;
@@ -306,7 +334,7 @@ begin
   lPTreeNode := TreeGoodType.Selected;
   if (lPTreeNode <> nil) and (lPTreeNode.Data <> nil) then
   begin
-    if FireqGoods.RecordCount > 0 then
+    if DmClient.FireqGoods.RecordCount > 0 then
     begin
       ShowMessage('当前类别下数据不为空，无法删除');
       exit;
@@ -396,7 +424,7 @@ begin
       FireQGoodsImport.DataInfo.DatabaseCode:='GBB';
       FireQGoodsImport.DataInfo.SQL.Text:='INSERT INTO dbo.GOODS(ID,MC,FID) VALUES (:ID,:MC,:FID)';
       FireQGoodsImport.DataInfo.ActiveDesign:=True;
-      FireqGoods.DisableControls;
+      DmClient.FireqGoods.DisableControls;
       try
         for I := 1 to WorkSheet.LastRow  do
         begin
@@ -422,7 +450,7 @@ begin
           Application.ProcessMessages;
       finally
         Panel1.Visible:=False;
-        FireqGoods.EnableConstraints;
+        DmClient.FireqGoods.EnableConstraints;
       end;
     end;
   finally
@@ -448,21 +476,21 @@ begin
   if InputQuery('商品名称输入','请输入',str) then
   begin
     FModuleID:=CreateSortID;
-    if FireqGoods.Locate('MC',str,[]) then
+    if DmClient.FireqGoods.Locate('MC',str,[]) then
     begin
       ShowMessage('你输入的商品名称已经存在');
       exit;
     end else
     begin
-      FireqGoods.Append;
-      FireqGoods.FieldByName('ID').AsString:=FModuleID;
-      FireqGoods.FieldByName('MC').AsString:= str;
-      FireqGoods.FieldByName('FID').AsString:=PID;
-      FireqGoods.DataInfo.TableName:='GOODS';
-      FireqGoods.DataInfo.PrimaryKey:='ID';
-      if not FireqGoods.SaveData then
+      DmClient.FireqGoods.Append;
+      DmClient.FireqGoods.FieldByName('ID').AsString:=FModuleID;
+      DmClient.FireqGoods.FieldByName('MC').AsString:= str;
+      DmClient.FireqGoods.FieldByName('FID').AsString:=PID;
+      DmClient.FireqGoods.DataInfo.TableName:='GOODS';
+      DmClient.FireqGoods.DataInfo.PrimaryKey:='ID';
+      if not DmClient.FireqGoods.SaveData then
       begin
-        ShowMessage('数据保存失败'+FireqGoods.DataInfo.ErrMsg);
+        ShowMessage('数据保存失败'+DmClient.FireqGoods.DataInfo.ErrMsg);
       end;
     end;
   end;
@@ -485,9 +513,9 @@ var
   vSql:string;
 begin
   vSql:=Format(StrSql,[TreeGoodType.GetNodeAndChildAllIdListStr(TreeGoodType.Selected)]);
-  FireqGoods.DataInfo.SQL.Clear;
-  FireqGoods.DataInfo.SQL.Text:=vSql;
-  FireqGoods.OpenData;
+  DmClient.FireqGoods.DataInfo.SQL.Clear;
+  DmClient.FireqGoods.DataInfo.SQL.Text:=vSql;
+  DmClient.FireqGoods.OpenData;
 end;
 
 procedure TFrmGoodTypeManager.TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
