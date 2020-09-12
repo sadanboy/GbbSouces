@@ -8,7 +8,9 @@ object DmClient: TDmClient
     ServerPort = 9090
     ConnectSecretkey = 'FD2259061E0E46B09C7D8A4FDD602C69'
     MainDatabaseCode = 'GBB'
-    ErrMsg = 'Error sending data: (12029) '#26080#27861#19982#26381#21153#22120#24314#31435#36830#25509
+    ErrMsg = 
+      #38169#35823':'#25171#24320#25968#25454#38169#35823':[FireDAC][Phys][ODBC][Microsoft][SQL Server Native Cli' +
+      'ent 10.0][SQL Server]'#20851#38190#23383' '#39'LEFT'#39' '#38468#36817#26377#35821#27861#38169#35823#12290
     ProxyPort = 0
     Left = 72
     Top = 48
@@ -171,6 +173,7 @@ object DmClient: TDmClient
     Top = 48
   end
   object FireqGoods: TFireQuery
+    Active = True
     FieldDefs = <
       item
         Name = 'ID'
@@ -186,12 +189,12 @@ object DmClient: TDmClient
       item
         Name = 'TM'
         DataType = ftString
-        Size = 30
+        Size = 50
       end
       item
         Name = 'FID'
         DataType = ftString
-        Size = 30
+        Size = 50
       end
       item
         Name = 'ARTICLENUMBER'
@@ -219,7 +222,7 @@ object DmClient: TDmClient
       'select * from goods')
     DataInfo.Params = <>
     DataInfo.Connection = FireConMain
-    DataInfo.ActiveDesign = False
+    DataInfo.ActiveDesign = True
     DataInfo.PageSize = -1
     DataInfo.PageIndex = -1
     DataInfo.PageTotal = 0
@@ -242,17 +245,68 @@ object DmClient: TDmClient
     end
     object FireqGoodsTM: TStringField
       FieldName = 'TM'
-      Size = 30
+      Size = 50
     end
     object FireqGoodsFID: TStringField
       FieldName = 'FID'
-      Size = 30
+      Size = 50
     end
     object FireqGoodsARTICLENUMBER: TStringField
       FieldName = 'ARTICLENUMBER'
       Size = 30
     end
     object FireqGoodsPINYINCODE: TStringField
+      FieldName = 'PINYINCODE'
+      Size = 50
+    end
+  end
+  object FireQViewGoods: TFireQuery
+    FieldDefs = <>
+    CachedUpdates = True
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvUpdateChngFields, uvUpdateMode, uvLockMode, uvLockPoint, uvLockWait, uvRefreshMode, uvFetchGeneratorsPoint, uvCheckRequired, uvCheckReadOnly, uvCheckUpdatable, uvAutoCommitUpdates]
+    UpdateOptions.LockWait = True
+    UpdateOptions.FetchGeneratorsPoint = gpNone
+    UpdateOptions.CheckRequired = False
+    StoreDefs = True
+    DataInfo.DatabaseCode = 'GBB'
+    DataInfo.SQL.Strings = (
+      'select * from viewgoods')
+    DataInfo.Params = <>
+    DataInfo.Connection = FireConMain
+    DataInfo.ActiveDesign = False
+    DataInfo.PageSize = -1
+    DataInfo.PageIndex = -1
+    DataInfo.PageTotal = 0
+    DataInfo.PageTotalCount = 0
+    DataInfo.StoredProcReturnDataSet = False
+    DataInfo.AffectMaxCount = -1
+    DataInfo.AffectMustOne = False
+    DataInfo.RowsAffected = 0
+    DataInfo.AsynMode = False
+    Left = 176
+    Top = 168
+    object FireQViewGoodsTYPEMC: TStringField
+      FieldName = 'TYPEMC'
+      Size = 50
+    end
+    object FireQViewGoodsMC: TStringField
+      FieldName = 'MC'
+      Size = 50
+    end
+    object FireQViewGoodsTM: TStringField
+      FieldName = 'TM'
+      Size = 50
+    end
+    object FireQViewGoodsARTICLENUMBER: TStringField
+      FieldName = 'ARTICLENUMBER'
+      Size = 30
+    end
+    object FireQViewGoodsPINYINCODE: TStringField
       FieldName = 'PINYINCODE'
       Size = 50
     end

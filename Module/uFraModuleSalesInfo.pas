@@ -30,7 +30,7 @@ uses
   cxCalendar, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireHelper, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDataSet,
-  Vcl.WinXCtrls;
+  Vcl.WinXCtrls, dxSkinsDefaultPainters;
 const
   StrSql:string='SELECT' +
                 '   [销售单据明细].[流水号],' +

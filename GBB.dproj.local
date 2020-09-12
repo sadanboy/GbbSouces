@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.748,=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Unit1.pas=F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.291,E:\gbb\GbbSouces\Unit1.pas=E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.698,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.905,=E:\gbb\GbbSouces\Utils\MyLib.scTreeView.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.291,E:\gbb\GbbSouces\Unit1.dfm=E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Unit1.dfm=E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.420,E:\gbb\GbbSouces\Module\uFraModuleGoodClass.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Unit2.dfm=E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.897,=E:\gbb\GbbSouces\Utils\FireFunction.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.736,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.016,=E:\gbb\GbbSouces\Snowflake.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Unit1.dfm=F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.189,=E:\gbb\GbbSouces\Unit2.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Unit1.pas=E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.810,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.dfm=E:\gbb\GbbSouces\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.555,=E:\gbb\GbbSouces\Form\uFrmGoodTypeManager.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Unit2.pas=E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.897,=E:\gbb\GbbSouces\Utils\FireFunction.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.810,=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.016,=E:\gbb\GbbSouces\Snowflake.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.420,E:\gbb\GbbSouces\Module\uFraModuleGoodClass.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.905,=E:\gbb\GbbSouces\Utils\MyLib.scTreeView.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.dfm=F:\项目\GBB200826\GbbSouces\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.736,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.291,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm=E:\gbb\GbbSouces\Unit2.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.291,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.dfm=E:\gbb\GbbSouces\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.700,E:\gbb\GbbSouces\Form\uFrmGoodTypeEdit.pas=E:\gbb\GbbSouces\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.342,E:\gbb\GbbSouces\Module\ufraModuleGoodTypeManager.pas=E:\gbb\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.485,F:\项目\GBB200826\GbbSouces\Module\uFraModuleGoodClass.pas=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.748,=F:\项目\GBB200826\GbbSouces\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.189,=E:\gbb\GbbSouces\Unit2.pas</Transaction>
   </Transactions>
 </BorlandProject>

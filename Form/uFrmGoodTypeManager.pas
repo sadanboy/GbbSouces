@@ -29,7 +29,8 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, dxSkinsDefaultPainters, Vcl.Menus,
   System.Generics.Collections, cxDBLookupComboBox, dxDBSparkline, XLSSheetData5,
-  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,System.StrUtils;
+  XLSReadWriteII5, Vcl.StdCtrls, Vcl.ExtCtrls, System.Actions, Vcl.ActnList,System.StrUtils,
+  cxContainer, cxTextEdit, Vcl.Mask;
 
 type
   TFrmGoodTypeManager = class(TForm)
@@ -56,12 +57,12 @@ type
     scGPButton1: TscGPButton;
     Img16: TcxImageList;
     PopupMenu1: TPopupMenu;
-    y1: TMenuItem;
-    N1: TMenuItem;
-    N2: TMenuItem;
+    NodeAdd: TMenuItem;
+    SameLevelNodeAdd: TMenuItem;
+    LowerLeveNodeAdd: TMenuItem;
     N3: TMenuItem;
-    N4: TMenuItem;
-    N5: TMenuItem;
+    NodeEdit: TMenuItem;
+    NodeDelete: TMenuItem;
     PopupMenu2: TPopupMenu;
     SingleAddItem: TMenuItem;
     BatchAddItem: TMenuItem;
@@ -76,22 +77,31 @@ type
     cxGrid1DBTableView1Column2: TcxGridDBColumn;
     cxGrid1DBTableView1Column4: TcxGridDBColumn;
     cxGrid1DBTableView1Column5: TcxGridDBColumn;
+    actEdit: TAction;
+    btnFind: TscGPButton;
+    Label2: TLabel;
+    actFind: TAction;
+    scEdit1: TscEdit;
+    DSViewGoods: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure TreeGoodTypeClick(Sender: TObject);
     procedure TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
-    procedure y1Click(Sender: TObject);
+    procedure NodeAddClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure N1Click(Sender: TObject);
-    procedure N2Click(Sender: TObject);
-    procedure N4Click(Sender: TObject);
-    procedure N5Click(Sender: TObject);
+    procedure SameLevelNodeAddClick(Sender: TObject);
+    procedure LowerLeveNodeAddClick(Sender: TObject);
+    procedure NodeEditClick(Sender: TObject);
+    procedure NodeDeleteClick(Sender: TObject);
     procedure SingleAddItemClick(Sender: TObject);
     procedure BatchAddItemClick(Sender: TObject);
     procedure scGPButton2ContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
     procedure actSingleAddExecute(Sender: TObject);
     procedure actBatchAddExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actFindExecute(Sender: TObject);
+    procedure scGPButton3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -113,8 +123,118 @@ uses
 { TForm1 }
 
 procedure TFrmGoodTypeManager.actBatchAddExecute(Sender: TObject);
+var
+  vNode:TTreeNode;
+  PID,str,FModuleID:string;
+  FileName:string;
+  i,Row:Integer;
+  XLSII:TXLSReadWriteII5;
+  WorkSheet:TXLSworksheet;
+  exited:Boolean;
 begin
-//
+  vNode:=TreeGoodType.Selected;
+  if (vNode=nil) or (vNode.Data=nil)or(vNode.HasChildren) then
+  begin
+    ShowMessage('请先选择分类……');
+    exit;
+  end;
+  PID:=PMyNodeInfo(vNode.Data)^.ID;
+  exited:=False;
+  XLSII:=TXLSReadWriteII5.Create(nil);
+  try
+    if OpenDialogExcel.Execute then
+    begin
+      XLSII.Filename:=Trim(OpenDialogExcel.FileName);
+      XLSII.Read;
+      for I := 0 to XLSII.Count-1 do
+      begin
+        if XLSII.Sheets[i].Name='商品分类' then
+        begin
+          WorkSheet:=XLSII.Sheets[i];
+          exited:=True;
+          Break;
+        end;
+        if not exited then
+        begin
+          ShowMessage('你导入的表格格式不对');
+          exit;
+        end;
+      end;
+      if (WorkSheet.LastRow+1)<2 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据行不足！');
+        exit;
+      end;
+      if (WorkSheet.LastCol+1)<1 then
+      begin
+        ShowMessage('你所导的表格不符合要求，数据列不足！');
+        exit;
+      end;
+      if WorkSheet.AsString[0, 0] <> '商品名称' then
+      begin
+        ShowMessage('【商品名称】列未发现');
+        Exit;
+      end;
+      ProgressBar1.Max:=WorkSheet.LastRow+1;
+      ProgressBar1.Min:=1;
+      Panel1.Visible:=True;
+      Panel1.BringToFront;
+      FireQGoodsImport.DataInfo.Connection:=DmClient.FireConMain;
+      FireQGoodsImport.DataInfo.DatabaseCode:='GBB';
+      FireQGoodsImport.DataInfo.SQL.Text:='INSERT INTO dbo.GOODS(ID,MC,FID,) VALUES (:ID,:MC,:FID)';
+      FireQGoodsImport.DataInfo.ActiveDesign:=True;
+      DmClient.FireqGoods.DisableControls;
+      try
+        for I := 1 to WorkSheet.LastRow  do
+        begin
+          if FireQGoodsImport.Locate('TM',WorkSheet.AsString[1,i],[]) then
+          begin
+            Continue;
+          end
+          else
+          begin
+            FireQGoodsImport.ParamByName('ID').AsString:= CreateSortID;
+            FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
+            FireQGoodsImport.ParamByName('TM').AsString:= WorkSheet.AsString[1,i];
+            FireQGoodsImport.ParamByName('ARTICLENUMBER').AsString:=LeftStr(WorkSheet.AsString[1,i],7);
+            FireQGoodsImport.ParamByName('PINYINCODE').AsString:=ChnToPY(WorkSheet.AsString[0,i]);
+            FireQGoodsImport.ParamByName('FID').AsString:=PID;
+          end;
+        end;
+        if not FireQGoodsImport.ExecDML then
+        begin
+          ShowMessage('执行失败'+FireQGoodsImport.DataInfo.ErrMsg);
+        end;
+        Label1.Caption:='正在导入数据……'+Row.ToString+'/'+(WorkSheet.LastRow+1).ToString;
+        ProgressBar1.Position:=Row;
+        if (Row mod 10)=0 then
+          Application.ProcessMessages;
+      finally
+        Panel1.Visible:=False;
+        DmClient.FireqGoods.EnableConstraints;
+        DmClient.FireqGoods.Refresh;
+      end;
+    end;
+  finally
+    XLSII.Free;
+  end;
+  //
+  //ShowMessage('功能添加中，敬请期待……');
+end;
+
+procedure TFrmGoodTypeManager.actEditExecute(Sender: TObject);
+var
+  AForm:TFrmGoodTypeEdit;
+  PID:string;
+  vNode:TTreeNode;
+begin
+  //
+  ShowMessage('正在开发中请耐心等待');
+end;
+
+procedure TFrmGoodTypeManager.actFindExecute(Sender: TObject);
+begin
+  ShowMessage('亲，功能正在开发中请耐心等待……');
 end;
 
 procedure TFrmGoodTypeManager.actSingleAddExecute(Sender: TObject);
@@ -122,6 +242,7 @@ var
   AForm:TFrmGoodTypeEdit;
   PID:string;
   vNode:TTreeNode;
+  //TMstr:string;
 begin
   vNode:=TreeGoodType.Selected;
   if (vNode=nil) or (vNode.Data=nil)or(vNode.HasChildren) then
@@ -138,32 +259,31 @@ begin
       FFrmState:=fesadd;
       Acd:=DmClient.FireqGoods;
       Ads:=DS1;
-      if DmClient.FireqGoods.Active then
+      DmClient.FireqGoods.DataInfo.TableName:='GOODS';
+      DmClient.FireqGoods.DataInfo.PrimaryKey:='ID';
+      ShowModal;
+      if ModalResult=mrOk then
       begin
-        DmClient.FireqGoods.DataInfo.TableName:='GOODS';
-        DmClient.FireqGoods.DataInfo.PrimaryKey:='ID';
-        DmClient.FireqGoods.Append;
-        DmClient.FireqGoods.FieldByName('ID').AsString:=CreateSortID;
-        ShowModal;
-        if ModalResult=mrOk then
+        if DmClient.FireqGoods.Locate('TM',Trim(edtTM.Text),[loCaseInsensitive]) then
         begin
-           DmClient.FireqGoods.FieldByName('FID').AsString:=PID;
+          ShowMessage('该条码的商品已经存在，请重新输入……');
+          Exit;
+        end
+        else
+        begin
+          DmClient.FireqGoods.Append;
+          DmClient.FireqGoods.FieldByName('ID').AsString:=CreateSortID;
+          DmClient.FireqGoods.FieldByName('FID').AsString:=PID;
+          DmClient.FireqGoods.FieldByName('TM').AsString:=Trim(edtTM.Text);
+          DmClient.FireqGoods.FieldByName('MC').AsString:=Trim(edtMC.Text);
           //得到商品名称的拼音码
-          DmClient.FireqGoods.FieldByName('PINYINCODE').AsString:=GetPYFirst(edtDBMC.Text);
+          //DmClient.FireqGoods.FieldByName('PINYINCODE').AsString:=GetPYFirst(edtMC.Text);
+          DmClient.FireqGoods.FieldByName('PINYINCODE').AsString:=ChnToPY(edtMC.Text);
           //根据条码得到条码的前7位做位货号
-          DmClient.FireqGoods.FieldByName('ARTICLENUMBER').AsString:=LeftStr(edtDBTM.Text,7);
-//          if DmClient.FireqGoods.Locate('TM',Trim(edtDBTM.Text),[loCaseInsensitive]) then
-//          begin
-//            ShowMessage('该条码的商品已经存在，请重新输入……');
-//            //edtDBTM.SetFocus;
-//            Exit;
-//          end
-//          else
-            DmClient.FireqGoods.FieldByName('TM').AsString:=Trim(edtDBTM.Text);
+          DmClient.FireqGoods.FieldByName('ARTICLENUMBER').AsString:=LeftStr(Trim(edtTM.Text),7);
           if not DmClient.FireqGoods.SaveData then
           begin
              ShowMessage('数据保存失败，失败原因：'+DmClient.FireqGoods.DataInfo.ErrMsg);
-             //Exit;
           end;
         end;
       end;
@@ -258,7 +378,7 @@ begin
   FireQGoodType.Filtered:=False;
 end;
 
-procedure TFrmGoodTypeManager.N1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.SameLevelNodeAddClick(Sender: TObject);
 var
   str: string;
 begin
@@ -269,7 +389,7 @@ begin
   end;
 end;
 
-procedure TFrmGoodTypeManager.N2Click(Sender: TObject);
+procedure TFrmGoodTypeManager.LowerLeveNodeAddClick(Sender: TObject);
 var
   str: string;
 begin
@@ -278,7 +398,7 @@ begin
     AddCategory(str, True);
 end;
 
-procedure TFrmGoodTypeManager.N4Click(Sender: TObject);
+procedure TFrmGoodTypeManager.NodeEditClick(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;
@@ -316,7 +436,7 @@ begin
 
 end;
 
-procedure TFrmGoodTypeManager.N5Click(Sender: TObject);
+procedure TFrmGoodTypeManager.NodeDeleteClick(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;
@@ -437,6 +557,8 @@ begin
             FireQGoodsImport.ParamByName('ID').AsString:= CreateSortID;
             FireQGoodsImport.ParamByName('MC').AsString:= WorkSheet.AsString[0,i];
             FireQGoodsImport.ParamByName('TM').AsString:= WorkSheet.AsString[1,i];
+            FireQGoodsImport.ParamByName('ARTICLENUMBER').AsString:=LeftStr(WorkSheet.AsString[1,i],7);
+            FireQGoodsImport.ParamByName('PINYINCODE').AsString:=ChnToPY(WorkSheet.AsString[0,i]);
             FireQGoodsImport.ParamByName('FID').AsString:=PID;
           end;
         end;
@@ -506,16 +628,26 @@ begin
 
 end;
 
+procedure TFrmGoodTypeManager.scGPButton3Click(Sender: TObject);
+const
+  SQLstr:string = 'update ';
+var
+  vNode:TTreeNode;
+
+begin
+   //
+end;
+
 procedure TFrmGoodTypeManager.TreeGoodTypeClick(Sender: TObject);
 const
-  StrSql:string='SELECT * FROM [dbo].[GOODS] WHERE FID IN (SELECT ID FROM [dbo].[GOODTYPE] WHERE ID IN( %s ))';
+  StrSql:string='SELECT GOODS.MC AS MC,GOODS.TM AS TM, GOODS.ARTICLENUMBER AS ARTICLENUMBER,GOODS.PINYINCODE AS PINYINCODE,GOODTYPE.MC AS TYPEMC FROM [dbo].[GOODS] LEFT JOIN GOODTYPE	ON GOODS.FID = GOODTYPE.ID WHERE GOODS.FID IN ( %s ) ';
 var
   vSql:string;
 begin
   vSql:=Format(StrSql,[TreeGoodType.GetNodeAndChildAllIdListStr(TreeGoodType.Selected)]);
-  DmClient.FireqGoods.DataInfo.SQL.Clear;
-  DmClient.FireqGoods.DataInfo.SQL.Text:=vSql;
-  DmClient.FireqGoods.OpenData;
+  DmClient.FireQViewGoods.DataInfo.SQL.Clear;
+  DmClient.FireQViewGoods.DataInfo.SQL.Text:=vSql;
+  DmClient.FireQViewGoods.OpenData;
 end;
 
 procedure TFrmGoodTypeManager.TreeGoodTypeContextPopup(Sender: TObject; MousePos: TPoint;
@@ -524,34 +656,35 @@ var
   lPTreeNode : TTreeNode;
 begin
   lPTreeNode:=TreeGoodType.Selected;
+  //当树为空是只弹出增加节点的菜单
   if TreeGoodType.Items.Count = 0 then
   begin
-    y1.Visible := True;
-    N1.Visible := false;
-    N2.Visible := false;
+    NodeAdd.Visible := True;
+    SameLevelNodeAdd.Visible := false;
+    LowerLeveNodeAdd.Visible := false;
     N3.Visible := False;
-    N4.Visible := false;
-    N5.Visible := false;
+    NodeEdit.Visible := false;
+    NodeDelete.Visible := false;
     exit;
   end;
-
+  //当节点为根节点是不弹出增加节点菜单
   if PMyNodeInfo(TreeGoodType.Selected.Data)^.ID = '0' then
   begin
-    y1.Visible := False;
-    N1.Visible := False;
-    N2.Visible := True;
+    NodeAdd.Visible := False;
+    SameLevelNodeAdd.Visible := False;
+    LowerLeveNodeAdd.Visible := True;
     N3.Visible := True;
-    N4.Visible := True;
-    N5.Visible := True;
+    NodeEdit.Visible := True;
+    NodeDelete.Visible := True;
     Exit;
   end;
 
-  y1.Visible := false;
-  N1.Visible := True;
-  N2.Visible := True;
+  NodeAdd.Visible := false;
+  SameLevelNodeAdd.Visible := True;
+  LowerLeveNodeAdd.Visible := True;
   N3.Visible := True;
-  N4.Visible := True;
-  N5.Visible := True;
+  NodeEdit.Visible := True;
+  NodeDelete.Visible := True;
   //当没有选中某个节点时，不弹出对话框
   if TreeGoodType.Selected=nil then
   begin
@@ -559,7 +692,7 @@ begin
   end;
 end;
 
-procedure TFrmGoodTypeManager.y1Click(Sender: TObject);
+procedure TFrmGoodTypeManager.NodeAddClick(Sender: TObject);
 var
   str: string;
   lPTreeNode, lTreeNode: TTreeNode;

@@ -94,9 +94,23 @@ inherited FrmGoodTypeEdit: TFrmGoodTypeEdit
           Width = 273
         end
         object edtTM: TcxTextEdit
-          Left = 368
-          Top = 32
+          Left = 152
+          Top = 65
           TabOrder = 3
+          TextHint = #21830#21697#26465#30721
+          Width = 273
+        end
+        object edtMC: TcxTextEdit
+          Left = 152
+          Top = 16
+          TabOrder = 4
+          TextHint = #21830#21697#21517#31216
+          Width = 273
+        end
+        object edtARTI: TcxTextEdit
+          Left = 152
+          Top = 112
+          TabOrder = 5
           TextHint = #21830#21697#26465#30721
           Width = 273
         end

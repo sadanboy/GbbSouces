@@ -23,6 +23,8 @@ type
     edtDBARTI: TcxDBTextEdit;
     Label3: TLabel;
     edtTM: TcxTextEdit;
+    edtMC: TcxTextEdit;
+    edtARTI: TcxTextEdit;
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -48,16 +50,16 @@ var
   exited:Boolean;
 begin
   exited:=True;
-  if Trim(edtDBMC.Text).IsEmpty then
+  if Trim(edtMC.Text).IsEmpty then
   begin
     ShowMessage('商品名称不能为空！');
-    edtDBMC.SetFocus;
+    edtMC.SetFocus;
     exited:=False;
   end;
   if Trim(edtTM.Text).IsEmpty then
   begin
     ShowMessage('商品条码不能为空！');
-    edtDBTM.SetFocus;
+    edtTM.SetFocus;
     exited:=False;
   end;
   if exited then
@@ -84,10 +86,16 @@ begin
     fesAdd:
     begin
       Self.Caption:='商品信息【增加】' ;
+      edtDBARTI.Visible:=False;
+      edtARTI.Visible:=False;
+      Label3.Visible:=False;
     end;
     fesEdit:
     begin
       Self.Caption:='商品信息【编辑】';
+      edtDBARTI.Visible:=True;
+       edtARTI.Visible:=True;
+      Label3.Visible:=True;
     end;
   end;
   SetDs(cxTabSheet1,Ads);

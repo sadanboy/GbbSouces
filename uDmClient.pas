@@ -28,12 +28,18 @@ type
     FireConMain: TFireConnection;
     FireQMain: TFireQuery;
     FireqGoods: TFireQuery;
+    FireQViewGoods: TFireQuery;
     FireqGoodsID: TStringField;
     FireqGoodsMC: TStringField;
     FireqGoodsTM: TStringField;
     FireqGoodsFID: TStringField;
     FireqGoodsARTICLENUMBER: TStringField;
     FireqGoodsPINYINCODE: TStringField;
+    FireQViewGoodsTYPEMC: TStringField;
+    FireQViewGoodsMC: TStringField;
+    FireQViewGoodsTM: TStringField;
+    FireQViewGoodsARTICLENUMBER: TStringField;
+    FireQViewGoodsPINYINCODE: TStringField;
   private
     { Private declarations }
   public
